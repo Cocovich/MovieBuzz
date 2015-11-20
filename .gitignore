@@ -27,7 +27,6 @@ proguard/
 *.log
 
 # Android Studio
-*.iml
 /.idea/workspace.xml
 /.idea/libraries
 
