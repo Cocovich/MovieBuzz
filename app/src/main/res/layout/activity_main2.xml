@@ -1,0 +1,85 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="com.example.lenovo.projet_1.Main2Activity">
+
+
+    <Button
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="MAX POINTS"
+    android:id="@+id/buttonMaxPoint"
+    android:background="@android:color/holo_orange_light"
+    android:clickable="true"
+    android:minWidth="350dp"
+    android:height="100dp"
+    android:layout_alignParentTop="true"
+    android:layout_alignParentLeft="true"
+    android:layout_alignParentStart="true"
+        android:onClick="onClickMaxPoint" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="MAX EPREUVES"
+        android:id="@+id/buttonMaxEpreuve"
+        android:background="@android:color/holo_orange_light"
+        android:clickable="true"
+        android:minWidth="350dp"
+        android:layout_below="@+id/textView"
+        android:layout_marginTop="27dp"
+        android:layout_alignLeft="@+id/buttonMaxPoint"
+        android:layout_alignStart="@+id/buttonMaxPoint"
+        android:height="100dp"
+        android:onClick="onClickMaxEpreuve" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="CONTRE LA MONTRE"
+        android:id="@+id/buttonContreMontre"
+        android:background="@android:color/holo_orange_light"
+        android:clickable="true"
+        android:minWidth="350dp"
+        android:layout_below="@+id/textView2"
+        android:layout_alignLeft="@+id/buttonMaxEpreuve"
+        android:layout_alignStart="@+id/buttonMaxEpreuve"
+        android:layout_marginTop="27dp"
+        android:height="100dp"
+        android:contextClickable="true"
+        android:onClick="onClickContreMontre" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Celui qui a le plus de point apres autant d&apos;epreuve points gagne "
+        android:id="@+id/textView2"
+        android:layout_below="@+id/buttonMaxEpreuve"
+        android:layout_centerHorizontal="true"
+        android:maxWidth="250dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Le premier qui atteint ce nombre de points gagne"
+        android:id="@+id/textView"
+        android:layout_below="@+id/buttonMaxPoint"
+        android:layout_centerHorizontal="true"
+        android:maxWidth="250dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Celui qui a le plus de point a la fin du compte a rebourd gagne"
+        android:id="@+id/textView3"
+        android:layout_below="@+id/buttonContreMontre"
+        android:layout_centerHorizontal="true"
+        android:maxWidth="250dp" />
+
+</RelativeLayout>
