@@ -11,7 +11,7 @@
     <ImageView
         android:id="@+id/imageView1"
         android:layout_width="fill_parent"
-        android:layout_height="310dp"
+        android:layout_height="350dp"
         android:layout_alignParentEnd="false"
         android:layout_alignParentRight="true"
         android:src="@drawable/buzzgame" />

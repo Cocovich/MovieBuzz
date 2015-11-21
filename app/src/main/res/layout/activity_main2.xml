@@ -8,17 +8,17 @@
 
 
     <Button
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="MAX POINTS"
-    android:id="@+id/buttonMaxPoint"
-    android:background="@android:color/holo_orange_light"
-    android:clickable="true"
-    android:minWidth="350dp"
-    android:height="100dp"
-    android:layout_alignParentTop="true"
-    android:layout_alignParentLeft="true"
-    android:layout_alignParentStart="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="MAX POINTS"
+        android:id="@+id/buttonMaxPoint"
+        android:background="@android:color/holo_orange_light"
+        android:clickable="true"
+        android:minWidth="350dp"
+        android:height="100dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
         android:onClick="onClickMaxPoint" />
 
     <Button

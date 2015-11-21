@@ -243,5 +243,78 @@ public class Main2Activity extends AppCompatActivity {
         //Intent detailIntent = new Intent(this, Main2Activity.class);
         //startActivityForResult(detailIntent, 1);
     }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    //TODO A lier a la fin de la partie
 
+    public void dialogVictoire(View view) {
+
+        //On instancie notre layout en tant que View
+        LayoutInflater factory = LayoutInflater.from(this);
+        final View alertDialogView = factory.inflate(R.layout.dialog_fin_partie_gagne, null);
+
+        //Création de l'AlertDialog
+        AlertDialog.Builder adb= new AlertDialog.Builder(this);
+
+        //On affecte la vue personnalisé que l'on a crée à notre AlertDialog
+        adb.setView(alertDialogView);
+
+        //On donne un titre à l'AlertDialog
+        adb.setTitle("FIN PARTIE");
+
+        //On modifie l'icône de l'AlertDialog pour le fun ;)
+        //adb.setIcon(android.R.drawable.ic_dialog_alert);
+
+        //On affecte un bouton "OK" à notre AlertDialog et on lui affecte un évènement
+        adb.setPositiveButton("JE SUIS TROP FORT POUR TOI", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                //TODO
+            }
+        });
+
+        //On crée un bouton "Annuler" à notre AlertDialog et on lui affecte un évènement
+        adb.setNegativeButton("TU EN VEUX ENCIRE?", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                //TODO
+            }
+        });
+        adb.show();
+
+    }
+
+    public void dialogDefaite(View view) {
+
+        //On instancie notre layout en tant que View
+        LayoutInflater factory = LayoutInflater.from(this);
+        final View alertDialogView = factory.inflate(R.layout.dialog_fin_partie_perdu, null);
+
+        //Création de l'AlertDialog
+        AlertDialog.Builder adb= new AlertDialog.Builder(this);
+
+        //On affecte la vue personnalisé que l'on a crée à notre AlertDialog
+        adb.setView(alertDialogView);
+
+        //On donne un titre à l'AlertDialog
+        adb.setTitle("FIN PARTIE");
+
+        //On modifie l'icône de l'AlertDialog pour le fun ;)
+        //adb.setIcon(android.R.drawable.ic_dialog_alert);
+
+        //On affecte un bouton "OK" à notre AlertDialog et on lui affecte un évènement
+        adb.setPositiveButton("J'ABONNE", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                //TODO
+            }
+        });
+
+        //On crée un bouton "Annuler" à notre AlertDialog et on lui affecte un évènement
+        adb.setNegativeButton("REVANCHE", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                //TODO
+            }
+        });
+        adb.show();
+        //int viewId = view.getId();
+        //Intent detailIntent = new Intent(this, Main2Activity.class);
+        //startActivityForResult(detailIntent, 1);
+    }
 }
