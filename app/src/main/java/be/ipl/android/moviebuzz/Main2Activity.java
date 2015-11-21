@@ -1,6 +1,7 @@
 package be.ipl.android.moviebuzz;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -176,15 +177,13 @@ public class Main2Activity extends AppCompatActivity {
         //On modifie l'icône de l'AlertDialog pour le fun ;)
         //adb.setIcon(android.R.drawable.ic_dialog_alert);
 
-        //On affecte un bouton "OK" à notre AlertDialog et on lui affecte un évènement
+
+        final Intent detailIntent = new Intent(this, Main3Activity.class);
         adb.setPositiveButton(R.id.ok, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
-
-                //Lorsque l'on cliquera sur le bouton "OK", on récupère l'EditText correspondant à notre vue personnalisée (cad à alertDialogView)
                 EditText et = (EditText) alertDialogView.findViewById(R.id.EditText1);
-
-                //On affiche dans un Toast le texte contenu dans l'EditText de notre AlertDialog
-                Toast.makeText(Main2Activity.this, et.getText(), Toast.LENGTH_SHORT).show();
+                detailIntent.putExtra(Main3Activity.NOMBRE_EPREUVES_MAX,Integer.parseInt(et.getText().toString()));
+                startActivityForResult(detailIntent, 1);
             }
         });
 
