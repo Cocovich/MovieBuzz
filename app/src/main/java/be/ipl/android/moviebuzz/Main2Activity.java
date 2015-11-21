@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 public class Main2Activity extends AppCompatActivity {
 
+    private static String TROUVER_CHALLENGER="Trouver challenger! ->";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -130,18 +131,13 @@ public class Main2Activity extends AppCompatActivity {
         //On donne un titre à l'AlertDialog
         adb.setTitle("MAX POINT");
 
-        //On modifie l'icône de l'AlertDialog pour le fun ;)
-        //adb.setIcon(android.R.drawable.ic_dialog_alert);
 
-        //On affecte un bouton "OK" à notre AlertDialog et on lui affecte un évènement
-        adb.setPositiveButton(R.id.ok, new DialogInterface.OnClickListener() {
+        final Intent detailIntent = new Intent(this, Main3Activity.class);
+        adb.setPositiveButton(TROUVER_CHALLENGER, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
-
-                //Lorsque l'on cliquera sur le bouton "OK", on récupère l'EditText correspondant à notre vue personnalisée (cad à alertDialogView)
                 EditText et = (EditText) alertDialogView.findViewById(R.id.EditText1);
-
-                //On affiche dans un Toast le texte contenu dans l'EditText de notre AlertDialog
-                Toast.makeText(Main2Activity.this, et.getText(), Toast.LENGTH_SHORT).show();
+                detailIntent.putExtra(Main3Activity.NOMBRE_EPREUVES_MAX,Integer.parseInt(et.getText().toString()));
+                startActivityForResult(detailIntent, 1);
             }
         });
 
@@ -179,7 +175,7 @@ public class Main2Activity extends AppCompatActivity {
 
 
         final Intent detailIntent = new Intent(this, Main3Activity.class);
-        adb.setPositiveButton(R.id.ok, new DialogInterface.OnClickListener() {
+        adb.setPositiveButton(TROUVER_CHALLENGER, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 EditText et = (EditText) alertDialogView.findViewById(R.id.EditText1);
                 detailIntent.putExtra(Main3Activity.NOMBRE_EPREUVES_MAX,Integer.parseInt(et.getText().toString()));
@@ -218,15 +214,13 @@ public class Main2Activity extends AppCompatActivity {
         //On modifie l'icône de l'AlertDialog pour le fun ;)
         //adb.setIcon(android.R.drawable.ic_dialog_alert);
 
-        //On affecte un bouton "OK" à notre AlertDialog et on lui affecte un évènement
-        adb.setPositiveButton(R.id.ok, new DialogInterface.OnClickListener() {
+
+        final Intent detailIntent = new Intent(this, Main3Activity.class);
+        adb.setPositiveButton(TROUVER_CHALLENGER, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
-
-                //Lorsque l'on cliquera sur le bouton "OK", on récupère l'EditText correspondant à notre vue personnalisée (cad à alertDialogView)
                 EditText et = (EditText) alertDialogView.findViewById(R.id.EditText1);
-
-                //On affiche dans un Toast le texte contenu dans l'EditText de notre AlertDialog
-                Toast.makeText(Main2Activity.this, et.getText(), Toast.LENGTH_SHORT).show();
+                detailIntent.putExtra(Main3Activity.NOMBRE_EPREUVES_MAX,Integer.parseInt(et.getText().toString()));
+                startActivityForResult(detailIntent, 1);
             }
         });
 

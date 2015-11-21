@@ -1,26 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/darker_gray"
     android:clickable="true"
     android:nestedScrollingEnabled="false"
     android:orientation="vertical"
     android:weightSum="1">
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="281dp"
         android:layout_height="wrap_content"
-        android:background="#ffbf73"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_gravity="center_horizontal">
 
         <ImageView
             android:id="@+id/imageView"
-            android:layout_width="255dp"
-            android:layout_height="350dp"
+            android:layout_width="244dp"
+            android:layout_height="334dp"
             android:layout_gravity="center_horizontal"
             android:scaleType="fitXY"
-            android:src="@drawable/djangoo" />
+            android:src="@drawable/djangoo"
+            android:background="@drawable/shape"
+            />
 
 
     </LinearLayout>
@@ -28,68 +29,81 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:layout_gravity="left|bottom"
         android:layout_weight="3.39"
-        android:weightSum="1"
-        android:visibility="visible">
+        android:orientation="horizontal"
+        android:visibility="visible"
+        android:weightSum="1">
 
 
         <LinearLayout
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_gravity="left|center_horizontal"
-            android:orientation="vertical"
             android:layout_weight="0.50"
-            android:visibility="visible">
+            android:orientation="vertical"
+            android:visibility="visible"
+            >
 
             <TextView
                 android:id="@+id/textView4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left|center_horizontal"
+                android:layout_marginLeft="16dp"
                 android:text="Quel est ce film?"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                />
 
-            <RadioButton
-                android:id="@+id/radioButton"
-                android:layout_width="wrap_content"
+            <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="left|center_horizontal"
-                android:layout_marginLeft="17dp"
-                android:checked="false"
-                android:clickable="true"
-                android:text="Dingo" />
+                android:orientation="vertical"
+                >
 
-            <RadioButton
-                android:id="@+id/radioButton2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="left|center_horizontal"
-                android:layout_marginLeft="17dp"
-                android:checked="false"
-                android:clickable="true"
-                android:text="Django" />
+                <RadioButton
+                    android:id="@+id/radioButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left|center_horizontal"
+                    android:layout_marginLeft="17dp"
+                    android:checked="false"
+                    android:clickable="true"
+                    android:text="Dingo"
+                    />
 
-            <RadioButton
-                android:id="@+id/radioButton3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="left|center_horizontal"
-                android:layout_marginLeft="17dp"
-                android:checked="false"
-                android:clickable="true"
-                android:text="windoo" />
+                <RadioButton
+                    android:id="@+id/radioButton2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left|center_horizontal"
+                    android:layout_marginLeft="17dp"
+                    android:checked="false"
+                    android:clickable="true"
+                    android:text="Django" />
 
-            <RadioButton
-                android:id="@+id/radioButton4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="left|center_horizontal"
-                android:layout_marginLeft="17dp"
-                android:checked="false"
-                android:clickable="true"
-                android:text="Bingo" />
+                <RadioButton
+                    android:id="@+id/radioButton3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left|center_horizontal"
+                    android:layout_marginLeft="17dp"
+                    android:checked="false"
+                    android:clickable="true"
+                    android:text="windoo" />
+
+                <RadioButton
+                    android:id="@+id/radioButton4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left|center_horizontal"
+                    android:layout_marginLeft="17dp"
+                    android:checked="false"
+                    android:clickable="true"
+                    android:text="Bingo" />
+            </RadioGroup>
         </LinearLayout>
+
         <RelativeLayout
             android:layout_width="50dp"
             android:layout_height="167dp"
@@ -97,17 +111,16 @@
             android:visibility="visible">
 
             <Button
+                android:id="@+id/button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/buzz_Bouton_Valider"
-                android:id="@+id/button"
-                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true" />
+                android:layout_alignParentTop="true"
+                android:text="@string/buzz_Bouton_Valider" />
         </RelativeLayout>
-
 
 
     </LinearLayout>
 
-</LinearLayout>
+</FrameLayout>

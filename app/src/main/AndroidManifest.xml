@@ -26,14 +26,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="be.ipl.android.moviebuzz.MainActivity" />
         </activity>
-        <activity
-            android:name=".Main2Activity"
-            android:label="@string/title_activity_main2"
-            android:parentActivityName=".MainActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="be.ipl.android.moviebuzz.MainActivity" />
-        </activity>
+        
         <activity
             android:name=".Main3Activity"
             android:label="@string/title_activity_main3"
