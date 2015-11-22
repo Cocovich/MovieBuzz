@@ -16,9 +16,9 @@ import android.widget.Toast;
 public class Main2Activity extends AppCompatActivity {
 
     private static String TROUVER_CHALLENGER = "Trouver challenger !!!";
-    private static String TYPE_EPR_MAX_POINT = "TYPE_EPR_MAX_POINT";
-    private static String TYPE_EPR_CONTRE_MONTRE = "TYPE_EPR_CONTRE_MONTRE";
-    private static String TYPE_EPR_MAX_EPREUVE = "TYPE_EPR_MAX_EPREUVE";
+    public static final String TYPE_EPR_MAX_POINT = "TYPE_EPR_MAX_POINT";
+    public static final String TYPE_EPR_CONTRE_MONTRE = "TYPE_EPR_CONTRE_MONTRE";
+    public static final String TYPE_EPR_MAX_EPREUVE = "TYPE_EPR_MAX_EPREUVE";
     public static final String PARAM_TYPE_EPR_CHOISI = "PARAM_TYPE_EPR_CHOISI";
 
     @Override
