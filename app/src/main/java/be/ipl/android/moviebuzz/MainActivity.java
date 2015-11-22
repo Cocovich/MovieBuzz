@@ -42,12 +42,13 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    //pour nouvelle partie
-    public void onClick(View view) {
+    public void newGame(View view) {
+        Intent gameIntent = new Intent(this, Main2Activity.class);
+        startActivityForResult(gameIntent, 1);
+    }
 
-        //int viewId = view.getId();
-
-        Intent detailIntent = new Intent(this, Main2Activity.class);
-        startActivityForResult(detailIntent, 1);
+    public void goToStats(View view) {
+        Intent statsIntent = new Intent(this, StatsActivity.class);
+        startActivityForResult(statsIntent, 1);
     }
 }

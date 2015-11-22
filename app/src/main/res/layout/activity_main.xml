@@ -23,8 +23,8 @@
         android:layout_above="@+id/button4"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:onClick="onClick"
-        android:text="Nouvelle partie"
+        android:onClick="newGame"
+        android:text="@string/new_game"
         android:clickable="true"
         android:background="@android:color/holo_orange_light"
         android:layout_marginTop="6dp" />
@@ -36,7 +36,8 @@
         android:layout_above="@+id/button5"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:text="Stats"
+        android:onClick="goToStats"
+        android:text="@string/stats"
         android:clickable="true"
         android:background="@android:color/holo_orange_light"
         android:layout_marginTop="6dp" />
@@ -48,7 +49,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:text="Options"
+        android:text="@string/options"
         android:clickable="true"
         android:background="@android:color/holo_orange_light"
         android:layout_marginTop="6dp" />

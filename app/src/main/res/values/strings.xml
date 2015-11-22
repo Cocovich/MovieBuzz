@@ -6,4 +6,9 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="buzz_Bouton_Valider">BUZZ !</string>
+    <string name="new_game">Nouvelle partie</string>
+    <string name="stats">Statistiques</string>
+    <string name="options">Options</string>
+    <string name="title_activity_stats">StatsActivity</string>
+    <string name="stats_total_points">Points cumulés</string>
 </resources>
