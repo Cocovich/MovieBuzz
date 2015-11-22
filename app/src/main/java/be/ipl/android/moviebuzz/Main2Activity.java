@@ -1,5 +1,6 @@
 package be.ipl.android.moviebuzz;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AlertDialog;
@@ -10,26 +11,21 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 public class Main2Activity extends AppCompatActivity {
 
-    private static String TROUVER_CHALLENGER="Trouver challenger! ->";
+    private static String TROUVER_CHALLENGER = "Trouver challenger !!!";
+    private static String TYPE_EPR_MAX_POINT = "TYPE_EPR_MAX_POINT";
+    private static String TYPE_EPR_CONTRE_MONTRE = "TYPE_EPR_CONTRE_MONTRE";
+    private static String TYPE_EPR_MAX_EPREUVE = "TYPE_EPR_MAX_EPREUVE";
+    public static final String PARAM_TYPE_EPR_CHOISI = "PARAM_TYPE_EPR_CHOISI";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
-
-
-
     }
-
-
-
-
-
 
 
     @Override
@@ -54,176 +50,44 @@ public class Main2Activity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    //TODO fusionner c tois methode en un seul et n'avoir ke une dialog ke je modifi avec setText
-   /*renvoi un null pour kan je recupere le text prk??? ************
-
     public void onClickMaxPoint(View view) {
-
-        //On instancie notre layout en tant que View
-        LayoutInflater factory = LayoutInflater.from(this);
-        final View alertDialogView = factory.inflate(R.layout.dialog_max_point, null);
-
-        //Création de l'AlertDialog
-        AlertDialog.Builder adb= new AlertDialog.Builder(this);
-
-        //On affecte la vue personnalisé que l'on a crée à notre AlertDialog
-        adb.setView(alertDialogView);
-
-        //On donne un titre à l'AlertDialog
-        int  viewId = view.getId();
-        if(viewId==R.id.buttonMaxPoint){
-            adb.setTitle("MAX POINTS");
-            ????????????????????????????????
-            TextView t = (TextView)findViewById(R.id.TextViewDeff);
-            t.setText("Entrez le nombre max de points :");
-        }
-        if(viewId==R.id.buttonContreMontre){
-            adb.setTitle("CONTRE LA MONTRE");
-            TextView text = (TextView)findViewById(R.id.TextViewDeff);
-            text.setText("Entrez le nombre max de minutes desirees :");
-        }
-
-        if(viewId==R.id.buttonMaxEpreuve){
-            adb.setTitle("MAX EPREUVES");
-            TextView text = (TextView)findViewById(R.id.TextViewDeff);
-            text.setText("Entrez le nombre max epreuves :");
-        }
-
-        //On modifie l'icône de l'AlertDialog pour le fun ;)
-        //adb.setIcon(android.R.drawable.ic_dialog_alert);
-
-        //On affecte un bouton "OK" à notre AlertDialog et on lui affecte un évènement
-        adb.setPositiveButton(R.id.ok, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-
-                //Lorsque l'on cliquera sur le bouton "OK", on récupère l'EditText correspondant à notre vue personnalisée (cad à alertDialogView)
-                EditText et = (EditText) alertDialogView.findViewById(R.id.EditText1);
-
-                //On affiche dans un Toast le texte contenu dans l'EditText de notre AlertDialog
-                Toast.makeText(Main2Activity.this, et.getText(), Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        //On crée un bouton "Annuler" à notre AlertDialog et on lui affecte un évènement
-        adb.setNegativeButton("Annuler", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-                //Lorsque l'on cliquera sur annuler on quittera l'application
-                //finish();
-            }
-        });
-        adb.show();
-        //int viewId = view.getId();
-        //Intent detailIntent = new Intent(this, Main2Activity.class);
-        //startActivityForResult(detailIntent, 1);
-    }*/
-    public void onClickMaxPoint(View view) {
-
-        //On instancie notre layout en tant que View
-        LayoutInflater factory = LayoutInflater.from(this);
-        final View alertDialogView = factory.inflate(R.layout.dialog_max_point, null);
-
-        //Création de l'AlertDialog
-        AlertDialog.Builder adb= new AlertDialog.Builder(this);
-
-        //On affecte la vue personnalisé que l'on a crée à notre AlertDialog
-        adb.setView(alertDialogView);
-
-        //On donne un titre à l'AlertDialog
-        adb.setTitle("MAX POINT");
-
-
-        final Intent detailIntent = new Intent(this, Main3Activity.class);
-        adb.setPositiveButton(TROUVER_CHALLENGER, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-                EditText et = (EditText) alertDialogView.findViewById(R.id.EditText1);
-                detailIntent.putExtra(Main3Activity.NOMBRE_EPREUVES_MAX,Integer.parseInt(et.getText().toString()));
-                startActivityForResult(detailIntent, 1);
-            }
-        });
-
-        //On crée un bouton "Annuler" à notre AlertDialog et on lui affecte un évènement
-        adb.setNegativeButton("Annuler", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-                //Lorsque l'on cliquera sur annuler on quittera l'application
-                //finish();
-            }
-        });
-        adb.show();
-        //int viewId = view.getId();
-        //Intent detailIntent = new Intent(this, Main2Activity.class);
-        //startActivityForResult(detailIntent, 1);
+        dialogSelectionEpreuve("MAX POINT", this.TYPE_EPR_MAX_POINT);
     }
-
-
     public void onClickMaxEpreuve(View view) {
-
-        //On instancie notre layout en tant que View
-        LayoutInflater factory = LayoutInflater.from(this);
-        final View alertDialogView = factory.inflate(R.layout.dialog_max_point, null);
-
-        //Création de l'AlertDialog
-        AlertDialog.Builder adb= new AlertDialog.Builder(this);
-
-        //On affecte la vue personnalisé que l'on a crée à notre AlertDialog
-        adb.setView(alertDialogView);
-
-        //On donne un titre à l'AlertDialog
-        adb.setTitle("MAX EPREUVE");
-
-        //On modifie l'icône de l'AlertDialog pour le fun ;)
-        //adb.setIcon(android.R.drawable.ic_dialog_alert);
-
-
-        final Intent detailIntent = new Intent(this, Main3Activity.class);
-        adb.setPositiveButton(TROUVER_CHALLENGER, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-                EditText et = (EditText) alertDialogView.findViewById(R.id.EditText1);
-                detailIntent.putExtra(Main3Activity.NOMBRE_EPREUVES_MAX,Integer.parseInt(et.getText().toString()));
-                startActivityForResult(detailIntent, 1);
-            }
-        });
-
-        //On crée un bouton "Annuler" à notre AlertDialog et on lui affecte un évènement
-        adb.setNegativeButton("Annuler", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-                //Lorsque l'on cliquera sur annuler on quittera l'application
-                //finish();
-            }
-        });
-        adb.show();
-        //int viewId = view.getId();
-        //Intent detailIntent = new Intent(this, Main2Activity.class);
-        //startActivityForResult(detailIntent, 1);
+        dialogSelectionEpreuve("MAX EPREUVE",this.TYPE_EPR_MAX_EPREUVE);
     }
-
     public void onClickContreMontre(View view) {
-
+        dialogSelectionEpreuve("CONTRE MONTRE",this.TYPE_EPR_CONTRE_MONTRE);
+    }
+    private void dialogSelectionEpreuve(String titre,final String typeEpreuve) {
+        //Création de l'AlertDialog
+        final AlertDialog.Builder adb = new AlertDialog.Builder(this);
         //On instancie notre layout en tant que View
         LayoutInflater factory = LayoutInflater.from(this);
-        final View alertDialogView = factory.inflate(R.layout.dialog_max_point, null);
-
-        //Création de l'AlertDialog
-        AlertDialog.Builder adb= new AlertDialog.Builder(this);
-
+        final View alertDialogView = factory.inflate(R.layout.dialog_type_partie, null);
         //On affecte la vue personnalisé que l'on a crée à notre AlertDialog
         adb.setView(alertDialogView);
-
-        //On donne un titre à l'AlertDialog
-        adb.setTitle("CONTRE MONTRE");
-
         //On modifie l'icône de l'AlertDialog pour le fun ;)
         //adb.setIcon(android.R.drawable.ic_dialog_alert);
-
-
         final Intent detailIntent = new Intent(this, Main3Activity.class);
+        final String t= new String(titre);
         adb.setPositiveButton(TROUVER_CHALLENGER, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 EditText et = (EditText) alertDialogView.findViewById(R.id.EditText1);
-                detailIntent.putExtra(Main3Activity.NOMBRE_EPREUVES_MAX,Integer.parseInt(et.getText().toString()));
+                try {
+                    detailIntent.putExtra(Main3Activity.PARAM_NOMBRE_CHOISI, Integer.parseInt(et.getText().toString()));
+                } catch (Exception e) {
+                    Context context = getApplicationContext();
+                    int duration = Toast.LENGTH_LONG;
+                    Toast toast = Toast.makeText(context, "Rentrez le nombre voulu", duration);
+                    toast.show();
+                    dialogSelectionEpreuve(t, typeEpreuve);
+                    return;
+                }
+                detailIntent.putExtra(Main2Activity.PARAM_TYPE_EPR_CHOISI, typeEpreuve);
                 startActivityForResult(detailIntent, 1);
             }
         });
-
         //On crée un bouton "Annuler" à notre AlertDialog et on lui affecte un évènement
         adb.setNegativeButton("Annuler", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
@@ -236,6 +100,7 @@ public class Main2Activity extends AppCompatActivity {
         //Intent detailIntent = new Intent(this, Main2Activity.class);
         //startActivityForResult(detailIntent, 1);
     }
+
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     //TODO A lier a la fin de la partie
 
@@ -246,7 +111,7 @@ public class Main2Activity extends AppCompatActivity {
         final View alertDialogView = factory.inflate(R.layout.dialog_fin_partie_gagne, null);
 
         //Création de l'AlertDialog
-        AlertDialog.Builder adb= new AlertDialog.Builder(this);
+        AlertDialog.Builder adb = new AlertDialog.Builder(this);
 
         //On affecte la vue personnalisé que l'on a crée à notre AlertDialog
         adb.setView(alertDialogView);
@@ -281,7 +146,7 @@ public class Main2Activity extends AppCompatActivity {
         final View alertDialogView = factory.inflate(R.layout.dialog_fin_partie_perdu, null);
 
         //Création de l'AlertDialog
-        AlertDialog.Builder adb= new AlertDialog.Builder(this);
+        AlertDialog.Builder adb = new AlertDialog.Builder(this);
 
         //On affecte la vue personnalisé que l'on a crée à notre AlertDialog
         adb.setView(alertDialogView);
