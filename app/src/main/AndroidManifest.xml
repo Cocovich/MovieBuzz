@@ -38,7 +38,11 @@
         <activity
             android:name=".StatsActivity"
             android:label="@string/title_activity_stats"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="be.ipl.android.moviebuzz.MainActivity" />
+        </activity>
     </application>
 
 </manifest>

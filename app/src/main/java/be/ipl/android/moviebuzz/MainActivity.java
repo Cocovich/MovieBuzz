@@ -49,6 +49,6 @@ public class MainActivity extends AppCompatActivity {
 
     public void goToStats(View view) {
         Intent statsIntent = new Intent(this, StatsActivity.class);
-        startActivityForResult(statsIntent, 1);
+        startActivity(statsIntent);
     }
 }
