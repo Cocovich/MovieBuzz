@@ -15,7 +15,7 @@
 
         <ImageView
 
-            android:id="@+id/imageView"
+            android:id="@+id/gameImage"
             android:layout_width="244dp"
             android:layout_height="334dp"
             android:layout_gravity="center_horizontal"
@@ -48,7 +48,7 @@
             >
 
             <TextView
-                android:id="@+id/textView4"
+                android:id="@+id/gameQuestion"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left|center_horizontal"
@@ -65,7 +65,7 @@
                 android:layout_margin="0dp">
 
                 <RadioButton
-                    android:id="@+id/radioButton"
+                    android:id="@+id/gameProp1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left|center_horizontal"
@@ -76,7 +76,7 @@
                     android:layout_marginTop="0dp" />
 
                 <RadioButton
-                    android:id="@+id/radioButton2"
+                    android:id="@+id/gameProp2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left|center_horizontal"
@@ -86,7 +86,7 @@
                     android:text="Django" />
 
                 <RadioButton
-                    android:id="@+id/radioButton3"
+                    android:id="@+id/gameProp3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left|center_horizontal"
@@ -96,7 +96,7 @@
                     android:text="Lucky Luke" />
 
                 <RadioButton
-                    android:id="@+id/radioButton4"
+                    android:id="@+id/gameProp4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left|center_horizontal"
