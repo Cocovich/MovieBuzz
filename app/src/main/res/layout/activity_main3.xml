@@ -20,7 +20,7 @@
             android:layout_height="334dp"
             android:layout_gravity="center_horizontal"
             android:scaleType="fitXY"
-            android:src="@drawable/ingloriousbastard"
+            android:src="@drawable/djangoo"
             android:background="@drawable/shape"
             />
         <!--shape est un xml ki garde des param pour le joli du contener...-->
@@ -177,7 +177,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="indicateur"
+        android:text="timer"
         android:id="@+id/indicateur"
         android:layout_gravity="right|top"
         android:layout_marginTop="95dp"
