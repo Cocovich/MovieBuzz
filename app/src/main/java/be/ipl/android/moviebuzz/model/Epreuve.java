@@ -6,16 +6,16 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.Collection;
 
-public class Epreuve
-{
+public class Epreuve {
     @IntDef({NIVEAU_FACILE, NIVEAU_MOYEN, NIVEAU_DIFFICILE, NIVEAU_EXPERT})
     @Retention(RetentionPolicy.SOURCE)
-    public @interface DifficultyLevel{}
+    public @interface DifficultyLevel {
+    }
 
-    public static final int NIVEAU_FACILE    = 1;
-    public static final int NIVEAU_MOYEN     = 2;
+    public static final int NIVEAU_FACILE = 1;
+    public static final int NIVEAU_MOYEN = 2;
     public static final int NIVEAU_DIFFICILE = 3;
-    public static final int NIVEAU_EXPERT    = 4;
+    public static final int NIVEAU_EXPERT = 4;
 
     public static final String PROPS_DELIMITER = ";";
 
