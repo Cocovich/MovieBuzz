@@ -43,21 +43,8 @@ public class Main3Activity extends AppCompatActivity {
         Toast toast = Toast.makeText(context, "type epreuve: " + typeEpreuve + "\nnombre=" + nombreVoulu, duration);
         toast.show();*/
 
-        //timer
-        timerPoint = new CountDownTimer(10000, 1000) {
-            TextView layouTimer = (TextView) findViewById(R.id.timer);
 
-            public void onTick(long millisUntilFinished) {
-                long temp = millisUntilFinished / 1000;
-                layouTimer.setText("" + temp);
-                if (temp < 5) layouTimer.setTextColor(Color.RED);
-                if (temp <= 1) layouTimer.setTextColor(Color.GRAY);
-            }
 
-            public void onFinish() {
-                layouTimer.setText("0");
-            }
-        };//.start();
 
         //si choisi contre la montre
         if (this.typeEpreuve.equals(Main2Activity.TYPE_EPR_CONTRE_MONTRE)) contreMontre();
@@ -69,8 +56,6 @@ public class Main3Activity extends AppCompatActivity {
         dao = new DAO(this);
         dao.open();
         remplirEcran();
-
-
     }
 
     private void remplirEcran() {
@@ -101,11 +86,33 @@ public class Main3Activity extends AppCompatActivity {
             }
             catch(IOException ignored) {}
         }
+        //lancement timer
+        lancerTimer();
+    }
+    public void lancerTimer(){
+        timerPoint = new CountDownTimer(10000, 1000) {
+            TextView layouTimer = (TextView) findViewById(R.id.timer);
+
+            public void onTick(long millisUntilFinished) {
+                long temp = millisUntilFinished / 1000;
+                layouTimer.setText("" + temp);
+                if (temp < 5) layouTimer.setTextColor(Color.RED);
+                if (temp <= 1) layouTimer.setTextColor(Color.GRAY);
+            }
+
+            public void onFinish() {
+                layouTimer.setText("0");
+            }
+        };//.start();}
     }
 
     public void buzz() {
+        //reactualise le tableau
+        // et relace le petit compteur
         remplirEcran();
-        onGameEnd();
+
+        if(this.typeEpreuve=)
+        //onGameEnd();
     }
 
     public void onGameEnd() {
@@ -134,7 +141,7 @@ public class Main3Activity extends AppCompatActivity {
             }
         }.start();
         timerPoint.start();
-        buzz();
+        //buzz();
     }
 
     public void maxPoints() {
@@ -147,7 +154,7 @@ public class Main3Activity extends AppCompatActivity {
         indicateurMaxPoint.setText("Max points");
 
         timerPoint.start();
-        buzz();
+        //buzz();
     }
 
     public void maxEpreuves() {
@@ -159,7 +166,7 @@ public class Main3Activity extends AppCompatActivity {
         indicateurMaxEpreuve.setText("Restants");
 
         timerPoint.start();
-        buzz();
+        //buzz();
     }
 
     @Override
