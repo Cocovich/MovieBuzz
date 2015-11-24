@@ -6,20 +6,11 @@ import java.util.Iterator;
 
 public class Util {
 
-    public static String join(Collection<String> propositions, String delimiter) {
-        Iterator<String> it = propositions.iterator();
+    public static String join(String[] propositions, String delimiter) {
         String props = "";
-        while (it.hasNext()) {
-            props += it.next();
-            if (it.hasNext()) props += delimiter;
+        for (String prop : propositions) {
+            props += prop+";";
         }
-        return props;
-    }
-
-    public static Propositions split(String string, String delimiter) {
-        String[] array = string.split(delimiter);
-        Propositions props = new Propositions();
-        Collections.addAll(props, array);
-        return props;
+        return props.substring(0, props.length()-2);
     }
 }

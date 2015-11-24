@@ -56,7 +56,15 @@ public class GameDBHelper extends SQLiteOpenHelper {
                 new String[]{"Dingo", "Djingo", "Django", "Bingo"},
                 "Django",
                 Epreuve.NIVEAU_MOYEN,
-                "django.jpg"
+                "djangoo.png"
+        ), db);
+
+        insererEpreuve(new Epreuve(
+                "Comment se nomme ce film ?",
+                new String[]{"Bad Guys", "Bad Cops", "Bad Boys", "Good cops"},
+                "Bad Boys",
+                Epreuve.NIVEAU_MOYEN,
+                "badboysfruitpassion.jpg"
         ), db);
 
     }

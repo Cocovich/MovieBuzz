@@ -30,15 +30,20 @@ public class DAO {
         if (cursor.moveToNext()) {
             int id = cursor.getInt(0);
             String question = cursor.getString(1);
+            String[] propositions = cursor.getString(2).split(Epreuve.PROPS_DELIMITER);
+            String reponse = cursor.getString(3);
             @Epreuve.DifficultyLevel
-            int difficulte = cursor.getInt(2);
-            String[] propositions = cursor.getString(3).split(Epreuve.PROPS_DELIMITER);
-            String reponse = cursor.getString(4);
+            int difficulte = cursor.getInt(4);
             String image = cursor.getString(5);
 
             return new Epreuve(question, propositions, reponse, difficulte, image);
         }
 
         return null;
+    }
+
+    public Cursor getRandomEpreuve() {
+        return sqLiteDatabase.rawQuery(
+                "SELECT * FROM "+ModelContract.GameDBEntry.TABLE_NAME+" ORDER BY RANDOM() LIMIT 1", null);
     }
 }

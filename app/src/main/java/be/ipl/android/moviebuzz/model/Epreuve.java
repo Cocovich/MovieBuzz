@@ -20,24 +20,19 @@ public class Epreuve {
     public static final String PROPS_DELIMITER = ";";
 
     private String question;
-    private Collection<String> propositions;
+    private String[] propositions;
     private String reponse;
     @DifficultyLevel
     private int difficulte;
     private String cheminImage;
 
-    public Epreuve(String question, Collection<String> propositions, String reponse,
+    public Epreuve(String question, String[] propositions, String reponse,
                    @DifficultyLevel int difficulte, String cheminImage) {
         this.question = question;
         this.propositions = propositions;
         this.reponse = reponse;
         this.difficulte = difficulte;
         this.cheminImage = cheminImage;
-    }
-
-    public Epreuve(String question, String[] propositions, String reponse,
-                   @DifficultyLevel int difficulte, String cheminImage) {
-        this(question, new Propositions(propositions), reponse, difficulte, cheminImage);
     }
 
     public String getQuestion() {
@@ -48,11 +43,11 @@ public class Epreuve {
         this.question = question;
     }
 
-    public Collection<String> getPropositions() {
+    public String[] getPropositions() {
         return propositions;
     }
 
-    public void setPropositions(Collection<String> propositions) {
+    public void setPropositions(String[] propositions) {
         this.propositions = propositions;
     }
 

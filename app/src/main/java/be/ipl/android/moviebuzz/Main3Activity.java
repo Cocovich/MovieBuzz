@@ -1,15 +1,22 @@
 package be.ipl.android.moviebuzz;
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import java.io.IOException;
+import java.io.InputStream;
+
+import be.ipl.android.moviebuzz.model.DAO;
+import be.ipl.android.moviebuzz.model.Epreuve;
 
 public class Main3Activity extends AppCompatActivity {
     public final static String PARAM_NOMBRE_CHOISI = "PARAM_NOMBRE_CHOISI";
@@ -57,6 +64,37 @@ public class Main3Activity extends AppCompatActivity {
         if (this.typeEpreuve.equals(Main2Activity.TYPE_EPR_MAX_EPREUVE)) maxEpreuves();
         //si choisi max points
         if (this.typeEpreuve.equals(Main2Activity.TYPE_EPR_MAX_POINT)) maxPoints();
+
+        DAO dao = new DAO(this);
+        dao.open();
+        Epreuve epreuve = DAO.getEpreuveFromCursor(dao.getRandomEpreuve());
+        dao.close();
+
+        // Lookup views
+        ImageView image = (ImageView) findViewById(R.id.gameImage);
+        TextView question = (TextView) findViewById(R.id.gameQuestion);
+        RadioButton prop1 = (RadioButton) findViewById(R.id.gameProp1);
+        RadioButton prop2 = (RadioButton) findViewById(R.id.gameProp2);
+        RadioButton prop3 = (RadioButton) findViewById(R.id.gameProp3);
+        RadioButton prop4 = (RadioButton) findViewById(R.id.gameProp4);
+        // Populate data
+        question.setText(epreuve.getQuestion());
+        prop1.setText(epreuve.getPropositions()[0]);
+        prop2.setText(epreuve.getPropositions()[1]);
+        prop3.setText(epreuve.getPropositions()[2]);
+        prop4.setText(epreuve.getPropositions()[3]);
+        if (epreuve.getCheminImage() != null) {
+            // get input stream
+            try {
+                InputStream ims = getAssets().open(epreuve.getCheminImage());
+                // load image as Drawable
+                Drawable d = Drawable.createFromStream(ims, null);
+                // set image to ImageView
+                image.setImageDrawable(d);
+            }
+            catch(IOException ignored) {}
+        }
+
 
     }
 
