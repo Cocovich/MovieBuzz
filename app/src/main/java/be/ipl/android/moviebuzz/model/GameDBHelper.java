@@ -9,7 +9,7 @@ import be.ipl.android.moviebuzz.model.ModelContract.*;
 
 public class GameDBHelper extends SQLiteOpenHelper {
 
-    public static final int DATABASE_VERSION = 1;
+    public static final int DATABASE_VERSION = 2;
     public static final String DATABASE_NAME = "Game.db";
 
     private static final String SQL_CREATE_TABLE =
@@ -56,7 +56,7 @@ public class GameDBHelper extends SQLiteOpenHelper {
                 new String[]{"Dingo", "Djingo", "Django", "Bingo"},
                 "Django",
                 Epreuve.NIVEAU_MOYEN,
-                "djangoo.png"
+                "django.png"
         ), db);
 
         insererEpreuve(new Epreuve(
@@ -64,7 +64,7 @@ public class GameDBHelper extends SQLiteOpenHelper {
                 new String[]{"Bad Guys", "Bad Cops", "Bad Boys", "Good cops"},
                 "Bad Boys",
                 Epreuve.NIVEAU_MOYEN,
-                "badboysfruitpassion.jpg"
+                "bad-boys-ii.jpg"
         ), db);
 
     }

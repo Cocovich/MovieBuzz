@@ -8,13 +8,13 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -26,22 +26,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="be.ipl.android.moviebuzz.MainActivity" />
         </activity>
-        
         <activity
             android:name=".Main3Activity"
-            android:label="@string/title_activity_main3"
-            android:parentActivityName=".Main2Activity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="be.ipl.android.moviebuzz.Main2Activity" />
+            android:label="@string/title_activity_main3">
         </activity>
         <activity
             android:name=".StatsActivity"
             android:label="@string/title_activity_stats"
-            android:theme="@style/AppTheme">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="be.ipl.android.moviebuzz.MainActivity" />
+            android:parentActivityName=".MainActivity">
         </activity>
     </application>
 

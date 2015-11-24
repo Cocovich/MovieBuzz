@@ -11,6 +11,6 @@ public class Util {
         for (String prop : propositions) {
             props += prop+";";
         }
-        return props.substring(0, props.length()-2);
+        return props.substring(0, props.length()-1);
     }
 }

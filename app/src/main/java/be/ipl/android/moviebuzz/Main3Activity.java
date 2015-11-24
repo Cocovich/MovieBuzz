@@ -23,6 +23,7 @@ public class Main3Activity extends AppCompatActivity {
     public final static String NOMBRE_POINTS_MAX = "NOMBRE_POINTS_MAX";
     public final static String CONTRE_MONTRE = "CONTRE_MONTRE";
 
+    private DAO dao;
     private int nombreVoulu = 0;
     private String typeEpreuve = "";
     CountDownTimer timerPoint;
@@ -65,10 +66,16 @@ public class Main3Activity extends AppCompatActivity {
         //si choisi max points
         if (this.typeEpreuve.equals(Main2Activity.TYPE_EPR_MAX_POINT)) maxPoints();
 
-        DAO dao = new DAO(this);
+        dao = new DAO(this);
         dao.open();
+        remplirEcran();
+
+
+    }
+
+    private void remplirEcran() {
+
         Epreuve epreuve = DAO.getEpreuveFromCursor(dao.getRandomEpreuve());
-        dao.close();
 
         // Lookup views
         ImageView image = (ImageView) findViewById(R.id.gameImage);
@@ -94,12 +101,15 @@ public class Main3Activity extends AppCompatActivity {
             }
             catch(IOException ignored) {}
         }
-
-
     }
 
     public void buzz() {
+        remplirEcran();
+        onGameEnd();
+    }
 
+    public void onGameEnd() {
+        dao.close();
     }
 
     public void contreMontre() {
