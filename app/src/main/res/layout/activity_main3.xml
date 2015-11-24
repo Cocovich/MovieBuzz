@@ -15,11 +15,12 @@
 
         <ImageView
             android:id="@+id/gameImage"
-            android:layout_width="244dp"
-            android:layout_height="334dp"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:scaleType="fitXY"
-            android:background="@drawable/shape" />
+            android:background="@drawable/shape"
+            android:maxHeight="330dp" />
         <!--shape est un xml ki garde des param pour le joli du contener...-->
 
 
