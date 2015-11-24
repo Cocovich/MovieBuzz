@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -47,6 +48,9 @@ public class Main3Activity extends AppCompatActivity {
         Toast toast = Toast.makeText(context, "type epreuve: " + typeEpreuve + "\nnombre=" + nombreVoulu, duration);
         toast.show();*/
 
+        dao = new DAO(this);
+        dao.open();
+
 
         //si choisi contre la montre
         if (this.typeEpreuve.equals(Main2Activity.TYPE_EPR_CONTRE_MONTRE)) contreMontre();
@@ -55,8 +59,7 @@ public class Main3Activity extends AppCompatActivity {
         //si choisi max points
         if (this.typeEpreuve.equals(Main2Activity.TYPE_EPR_MAX_POINT)) maxPoints();
 
-        dao = new DAO(this);
-        dao.open();
+        //TODO pas sure
         remplirEcran();
     }
 
@@ -113,10 +116,10 @@ public class Main3Activity extends AppCompatActivity {
                 layouTimer.setText("0");
 
             }
-        };//.start();}
+        }.start();
     }
 
-    public void buzz() {
+    public void buzz(View view) {
         //reactualise le tableau
         // et relace le petit compteur
         //remplirEcran();
@@ -169,10 +172,13 @@ public class Main3Activity extends AppCompatActivity {
     }
 
     public void contreMontre() {
+
         TextView points = (TextView) findViewById(R.id.points);
         final TextView timerContreMontre = (TextView) findViewById(R.id.valeur_indic);
         final TextView labelTimer = (TextView) findViewById(R.id.indicateur);
 
+        // creation  et lancement du compte a rebour Total du compte a rebour
+        // avec le minute et seconde//
         CountDownTimer timerTotal = new CountDownTimer(this.nombreVoulu * 60 * 1000, 1000) {
             public void onTick(long millisUntilFinished) {
                 //mise a jour du timer contre montre
@@ -188,8 +194,10 @@ public class Main3Activity extends AppCompatActivity {
                 timerContreMontre.setText("0");
                 //TODO qui a gagner dans le dialog machin
             }
+            //
         }.start();
-        timerPoint.start();
+        //timerPoint.start();
+        lancerTimer();
         //buzz();
     }
 
