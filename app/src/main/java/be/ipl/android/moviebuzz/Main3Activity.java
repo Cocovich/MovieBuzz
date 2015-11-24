@@ -1,5 +1,6 @@
 package be.ipl.android.moviebuzz;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -10,7 +11,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -27,6 +30,7 @@ public class Main3Activity extends AppCompatActivity {
     private int nombreVoulu = 0;
     private String typeEpreuve = "";
     CountDownTimer timerPoint;
+    int pointTotalJoueur = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,8 +48,6 @@ public class Main3Activity extends AppCompatActivity {
         toast.show();*/
 
 
-
-
         //si choisi contre la montre
         if (this.typeEpreuve.equals(Main2Activity.TYPE_EPR_CONTRE_MONTRE)) contreMontre();
         //si choisi max epreuves
@@ -58,9 +60,11 @@ public class Main3Activity extends AppCompatActivity {
         remplirEcran();
     }
 
+    private Epreuve epreuve;
+
     private void remplirEcran() {
 
-        Epreuve epreuve = DAO.getEpreuveFromCursor(dao.getRandomEpreuve());
+        epreuve = DAO.getEpreuveFromCursor(dao.getRandomEpreuve());
 
         // Lookup views
         ImageView image = (ImageView) findViewById(R.id.gameImage);
@@ -83,18 +87,23 @@ public class Main3Activity extends AppCompatActivity {
                 Drawable d = Drawable.createFromStream(ims, null);
                 // set image to ImageView
                 image.setImageDrawable(d);
+            } catch (IOException ignored) {
             }
-            catch(IOException ignored) {}
         }
         //lancement timer
         lancerTimer();
     }
-    public void lancerTimer(){
+
+    //pour le comtage  des points
+    private long temp = 0;
+
+    public void lancerTimer() {
+        temp = 0;
         timerPoint = new CountDownTimer(10000, 1000) {
             TextView layouTimer = (TextView) findViewById(R.id.timer);
 
             public void onTick(long millisUntilFinished) {
-                long temp = millisUntilFinished / 1000;
+                temp = millisUntilFinished / 1000;
                 layouTimer.setText("" + temp);
                 if (temp < 5) layouTimer.setTextColor(Color.RED);
                 if (temp <= 1) layouTimer.setTextColor(Color.GRAY);
@@ -102,6 +111,7 @@ public class Main3Activity extends AppCompatActivity {
 
             public void onFinish() {
                 layouTimer.setText("0");
+
             }
         };//.start();}
     }
@@ -109,10 +119,49 @@ public class Main3Activity extends AppCompatActivity {
     public void buzz() {
         //reactualise le tableau
         // et relace le petit compteur
-        remplirEcran();
+        //remplirEcran();
 
-        if(this.typeEpreuve=)
+        //si choisi contre la montre
+        if (this.typeEpreuve.equals(Main2Activity.TYPE_EPR_CONTRE_MONTRE)) buzzContreMontre();
+        //si choisi max epreuves
+        //if (this.typeEpreuve.equals(Main2Activity.TYPE_EPR_MAX_EPREUVE)) buzzMaxEpreuve();
+        //si choisi max points
+       // if (this.typeEpreuve.equals(Main2Activity.TYPE_EPR_MAX_POINT)) buzzMaxPoint();
+
+
         //onGameEnd();
+    }
+
+    private void buzzContreMontre() {
+        RadioGroup radiogroup = (RadioGroup) findViewById(R.id.radiogroup);
+        final RadioButton checked = (RadioButton) findViewById(radiogroup.getCheckedRadioButtonId());
+        String reponseDujoueur = (String) checked.getText().toString();
+
+        //si bonne reponse
+        if (epreuve.getReponse().equals(reponseDujoueur)) {
+            this.pointTotalJoueur += temp;
+            Context context = getApplicationContext();
+            int duration = Toast.LENGTH_LONG;
+            Toast toast = null;
+            if (temp != 0)
+                toast = Toast.makeText(context, "Bonne reponse !!!\nCombo plus: " + temp, duration);
+            else toast = Toast.makeText(context, "Bonne reponse !!!", duration);
+            //changement des points
+            TextView points = (TextView) findViewById(R.id.points);
+            points.setText("" + this.pointTotalJoueur);
+            toast.show();
+            //TODO remplir ecran pour mise a jour points
+            remplirEcran();
+        }
+        //si mauvaise reponse
+        else {
+            Context context = getApplicationContext();
+            int duration = Toast.LENGTH_LONG;
+            Toast toast = Toast.makeText(context, "Non!!! La bonne reponse etait:\n" + epreuve.getReponse(), duration);
+            toast.show();
+            remplirEcran();
+        }
+
     }
 
     public void onGameEnd() {
@@ -150,7 +199,7 @@ public class Main3Activity extends AppCompatActivity {
         final TextView maxpoint = (TextView) findViewById(R.id.valeur_indic);
 
         final TextView indicateurMaxPoint = (TextView) findViewById(R.id.indicateur);
-        maxpoint.setText(""+this.nombreVoulu);
+        maxpoint.setText("" + this.nombreVoulu);
         indicateurMaxPoint.setText("Max points");
 
         timerPoint.start();
@@ -162,7 +211,7 @@ public class Main3Activity extends AppCompatActivity {
         // affichage du nombre max de point
         final TextView resteEpreuve = (TextView) findViewById(R.id.valeur_indic);
         final TextView indicateurMaxEpreuve = (TextView) findViewById(R.id.indicateur);
-        resteEpreuve.setText(""+this.nombreVoulu);
+        resteEpreuve.setText("" + this.nombreVoulu);
         indicateurMaxEpreuve.setText("Restants");
 
         timerPoint.start();

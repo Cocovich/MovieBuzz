@@ -13,14 +13,14 @@ public class GameDBHelper extends SQLiteOpenHelper {
     public static final String DATABASE_NAME = "Game.db";
 
     private static final String SQL_CREATE_TABLE =
-        "CREATE TABLE " + GameDBEntry.TABLE_NAME  + " (" +
-                GameDBEntry._ID                       + " INTEGER PRIMARY KEY," +
-                GameDBEntry.COLUMN_NAME_QUESTION      + " TEXT," +
-                GameDBEntry.COLUMN_NAME_PROPOSITIONS  + " TEXT," +
-                GameDBEntry.COLUMN_NAME_ANSWER        + " TEXT," +
-                GameDBEntry.COLUMN_NAME_DIFFICULTY    + " INT," +
-                GameDBEntry.COLUMN_NAME_IMAGE         + " TEXT" +
-                " )";
+            "CREATE TABLE " + GameDBEntry.TABLE_NAME + " (" +
+                    GameDBEntry._ID + " INTEGER PRIMARY KEY," +
+                    GameDBEntry.COLUMN_NAME_QUESTION + " TEXT," +
+                    GameDBEntry.COLUMN_NAME_PROPOSITIONS + " TEXT," +
+                    GameDBEntry.COLUMN_NAME_ANSWER + " TEXT," +
+                    GameDBEntry.COLUMN_NAME_DIFFICULTY + " INT," +
+                    GameDBEntry.COLUMN_NAME_IMAGE + " TEXT" +
+                    " )";
     public static final String SQL_DELETE_ENTRIES = "DROP TABLE IF EXISTS " + GameDBEntry.TABLE_NAME;
 
     public GameDBHelper(Context context) {
@@ -56,7 +56,7 @@ public class GameDBHelper extends SQLiteOpenHelper {
                 new String[]{"Dingo", "Djingo", "Django", "Bingo"},
                 "Django",
                 Epreuve.NIVEAU_MOYEN,
-                "djangoo.png"
+                "django.png"
         ), db);
 
         insererEpreuve(new Epreuve(
@@ -85,22 +85,22 @@ public class GameDBHelper extends SQLiteOpenHelper {
                 new String[]{"Jane reste", "Jane aime singes", "Jane aime gorille", "Jane part"},
                 "Jane reste",
                 Epreuve.NIVEAU_DIFFICILE,
-                "tarzan-ouhouhhi.jpg"
+                ""
         ), db);
 
         insererEpreuve(new Epreuve(
-                "Que préparent ces personnages?",
-                new String[]{"Les beignets mortels", "Les macarons foudroyants", "La tarte au venin de vipère", "Le pudding a l'arsenic"},
+                "Que prepare cet homme?",
+                new String[]{"Les beignets mortels", "Macaron foudroyant", "Tarte au venin de vipere", "Le pudding a l'arsenic"},
                 "Le pudding a l'arsenic",
                 Epreuve.NIVEAU_DIFFICILE,
-                "pudding-arsenic.jpg"
+                ""
         ), db);
         insererEpreuve(new Epreuve(
-                "Que cherche Astérix?",
-                new String[]{"Le laissez-passer les pompiers", "Le laissez-passer les gaulois", "Le laissez-passer au port", "Le laissez-passer A38"},
-                "Le laissez-passer A38",
+                "Que cherche Asterix?",
+                new String[]{"Le laisser passer les pompiers", "Le laisser passer les gaulois", "Le laisser passer de Cesar", "Le laisser passer de Cesar a38"},
+                "Le laisser passer de Cesar a38",
                 Epreuve.NIVEAU_DIFFICILE,
-                "asterix-a38.jpg"
+                ""
         ), db);
 
         insererEpreuve(new Epreuve(
@@ -108,274 +108,274 @@ public class GameDBHelper extends SQLiteOpenHelper {
                 new String[]{"Sancho le cigare cubain", "Sancho le cubain", "le mask mexicain", "le mask cubain"},
                 "Sancho le cubain",
                 Epreuve.NIVEAU_DIFFICILE,
-                "mask-cubain.jpg"
+                ""
         ), db);
         insererEpreuve(new Epreuve(
-                "Quel est la véritable identité de Hulk",
-                new String[]{"Docteur Freeze", "Docteur Maboule", "Docteur Banner", "Le géant vert"},
+                "Quel est la veritable identite de hulk",
+                new String[]{"Docteur Freeze", "Docteur Maboule", "Docteur Banner", "le geant vert"},
                 "Docteur Banner",
                 Epreuve.NIVEAU_DIFFICILE,
-                "hulk.jpg"
+                ""
         ), db);
         insererEpreuve(new Epreuve(
-                "Complétez",
-                new String[]{"Bomb", "Thor", "Avengers", "Hulk"},
+                "Completez",
+                new String[]{"Bomb", "Thor", "Technologie", "Hulk"},
                 "Hulk",
                 Epreuve.NIVEAU_DIFFICILE,
-                "onahulk.jpg"
+                ""
         ), db);
         insererEpreuve(new Epreuve(
                 "Qui est cet homme?",
                 new String[]{"Pablo Escobar", "Dieu le pere", "Don Corleone", "Fidel Castro"},
                 "Don Corleone",
                 Epreuve.NIVEAU_DIFFICILE,
-                "parrain-don-corleone.jpg"
+                ""
         ), db);
         insererEpreuve(new Epreuve(
                 "Pas de bras pas de...",
                 new String[]{"calin", "chocolat", "bisous", "bonbon"},
                 "chocolat",
                 Epreuve.NIVEAU_DIFFICILE,
-                "pas-chocolat.png"
+                ""
         ), db);
         insererEpreuve(new Epreuve(
                 "Que mangent les Avengers",
                 new String[]{"un shawarma", "un macDonald", "un calamar", "un omar"},
                 "",
                 Epreuve.NIVEAU_DIFFICILE,
-                "shawarma.jpg"
+                ""
         ), db);
         insererEpreuve(new Epreuve(
-                "Comment cet homme était-il surnommé?",
-                new String[]{"le gladiator", "le matador", "l'espagnol", "le general"},
-                "l'espagnol",
+                "Comment cet homme etait-il surnomme?",
+                new String[]{"le gladiator", "le matador", "L'espagnol", "le general"},
+                "L'espagnol",
                 Epreuve.NIVEAU_DIFFICILE,
-                "gladiator-espagnol.jpg"
+                ""
         ), db);
         insererEpreuve(new Epreuve(
                 "A quel film appartient ce personnage?",
                 new String[]{"Troie", "300", "Hercule", "Gladiator"},
                 "Troie",
                 Epreuve.NIVEAU_DIFFICILE,
-                "troie_film.jpg"
+                ""
         ), db);
         insererEpreuve(new Epreuve(
-                "Ce personnage pleure...",
+                "ce personnage pleure...",
                 new String[]{"des bonbons", "des fraises", "du chocolat", "du caramel"},
                 "des bonbons",
                 Epreuve.NIVEAU_DIFFICILE,
-                "vice-versa-bing-bong.jpg"
+                ""
         ), db);
         insererEpreuve(new Epreuve(
                 "Qui est ce personnage?",
                 new String[]{"Fifi brain d'acier", "Poil de carotte", "Arthur Lemoine", "Syndrome"},
-                "Syndrome",
+                "",
                 Epreuve.NIVEAU_DIFFICILE,
-                "syndrome.jpg"
+                ""
         ), db);
         insererEpreuve(new Epreuve(
                 "Qui est ce personnage?",
                 new String[]{"Capitaine Planete", "Capitaine Flem", "Capitaine Flam", "Capitaine de l'espace"},
                 "Capitaine Flam",
                 Epreuve.NIVEAU_DIFFICILE,
-                "capitaine-flam.jpg"
+                ""
         ), db);
         insererEpreuve(new Epreuve(
-                "À qui appartient ce vaiseau?",
+                "A qui appartient ce vaiseau?",
                 new String[]{"Luke Skywalker", "Han Solo", "Chewbacca", "Dark Vador"},
                 "Han Solo",
                 Epreuve.NIVEAU_DIFFICILE,
-                "han-solo-vaiseau.jpg"
+                ""
         ), db);
         insererEpreuve(new Epreuve(
-                "A qui appartient cette épée?",
+                "A qui appartient cette epee?",
                 new String[]{"Ichogo Kurosaki", "Sasuke Uchiua", "Zabuza Momochi", "Kisame Hoshigaki"},
                 "Kisame Hoshigaki",
                 Epreuve.NIVEAU_DIFFICILE,
-                "Samehada1.png"
+                ""
         ), db);
         insererEpreuve(new Epreuve(
                 "Que veut dire \"mugiwara?\"",
                 new String[]{"roi des pirates", "capitaine", "ile au tresor", "chapeau de paille"},
                 "chapeau de paille",
                 Epreuve.NIVEAU_DIFFICILE,
-                "mugiwara.png"
+                ""
         ), db);
         insererEpreuve(new Epreuve(
                 "Ces personnages sont des ...",
                 new String[]{"Avengers", "Des pirates", "Des comics", "Des Mavels"},
                 "Des pirates",
                 Epreuve.NIVEAU_DIFFICILE,
-                "onepieceavengers.jpg"
+                ""
         ), db);
         insererEpreuve(new Epreuve(
-                "De quel film est tirée cette image?",
-                new String[]{"The Artist", "OSS 117", "OSS 107", "007 golden eye"},
+                "de que film est tire cette image?",
+                new String[]{"The Artist", "OSS 117", "OSS 117", "007 golden eye"},
                 "The Artist",
-                Epreuve.NIVEAU_DIFFICILE,
-                "theartist.jpg"
-        ), db);
-        insererEpreuve(new Epreuve(
-                "Cafard à l'entrée...",
-                new String[]{"et bouillie a la sortie", "et bouillie a la fin", "et bouillie au final", "et bouillie comme principale"},
-                "et bouillie a la sortie",
                 Epreuve.NIVEAU_DIFFICILE,
                 ""
         ), db);
         insererEpreuve(new Epreuve(
-                "Comment s'appelle ce chien?",
+                "Cafard à l'entrée...",
+                new String[]{"et bouilli a la sortie", "et bouilli a la fin", "et bouilli au final", "et bouilli comme principal"},
+                "et bouilli a la sortie",
+                Epreuve.NIVEAU_DIFFICILE,
+                ""
+        ), db);
+        insererEpreuve(new Epreuve(
+                "comment s'appel ce chien?",
                 new String[]{"Frank", "Carlin", "Agent K", "Scrapidoo"},
                 "Frank",
                 Epreuve.NIVEAU_DIFFICILE,
-                "men-in-black-frank.jpg"
+                ""
         ), db);
         insererEpreuve(new Epreuve(
                 "Qui est ce splendide canard?",
-                new String[]{"Black Swan", "Donald Duck", "Daffy Duck", "Flagada Jones"},
-                "Daffy Duck",
+                new String[]{"Black swan", "donald duck", "daffy duck", "flagada jones"},
+                "donald duck",
                 Epreuve.NIVEAU_DIFFICILE,
-                "daffy-duck.jpg"
+                ""
         ), db);
         insererEpreuve(new Epreuve(
                 "Qui est ce splendide canard?",
-                new String[]{"Black Swan", "Donald Duck", "Daffy Duck", "Flagada Jones"},
-                "Flagada Jones",
+                new String[]{"Black swan", "donald duck", "daffy duck", "flagada jones"},
+                "flagada jones",
                 Epreuve.NIVEAU_DIFFICILE,
-                "flagada.jpg"
+                ""
         ), db);
         insererEpreuve(new Epreuve(
-                "Quel est la phrase culte de Emmett Brown?",
-                new String[]{"Non de dieu!", "Non d'un tonnerre!", "Par les dieux!", "Non de zeus!"},
-                "Non de zeus!",
+                "Quel est la phrase culte de Emmett Brown",
+                new String[]{"non de dieu", "non d'un tonnerre", "par les dieux", "non de zeus"},
+                "",
                 Epreuve.NIVEAU_DIFFICILE,
-                "nom-de-zeus.jpg"
+                "retournomdezeus"
         ), db);
         insererEpreuve(new Epreuve(
-                "À qui appartient cette planche?",
-                new String[]{"Marty McFly", "Anakin Skywalker", "Aladdin dans le futur", "Tony Hawk"},
-                "Marty McFly",
+                "A qui appartient cette planche?",
+                new String[]{"Marty McFly", "Anakime Skywalker", "Alladin dans le futur", "Tony hawk"},
+                "",
                 Epreuve.NIVEAU_DIFFICILE,
-                "hoverboard.png"
+                "hoverboardretour.png"
         ), db);
         //kick ass
         insererEpreuve(new Epreuve(
-                "Comment s'appelle ce personnage?",
+                "Comment sappelle ce personnage?",
                 new String[]{"Bertolini", "Jim Carrey", "Syndrome", "Kick ass"},
                 "Bertolini",
                 Epreuve.NIVEAU_DIFFICILE,
-                "Kick-Ass-2.jpg"
+                ""
         ), db);
         insererEpreuve(new Epreuve(
-                "Jim Carrey dans...",
+                "Jim carrey dans...",
                 new String[]{"Ace Ventura", "Je t'aime Philipe Morris", "Bruce tout puissant", "Menteur menteur"},
                 "Menteur menteur",
                 Epreuve.NIVEAU_DIFFICILE,
-                "menteur-menteur.jpg"
+                ""
         ), db);
         insererEpreuve(new Epreuve(
-                "À quel film appartient cette image?",
-                new String[]{"Case Départ", "Twenty years a slave", "Les évadés", "Django Unchained"},
-                "Case Départ",
+                "A quel film appartient cette image?",
+                new String[]{"case depart", "twenty years of slave", "les evades", "Django"},
+                "case depart",
                 Epreuve.NIVEAU_DIFFICILE,
-                "case-depart.jpg"
+                ""
         ), db);
         insererEpreuve(new Epreuve(
                 "Comment surnomme-t-on le Lieutenant Marion?",
-                new String[]{"Cobra", "Rocky", "Rambo", "Terminator"},
-                "Cobra",
+                new String[]{"cobra", "rocky", "rombo", "terminator"},
+                "cobra",
                 Epreuve.NIVEAU_DIFFICILE,
-                "cobra.jpg"
+                ""
         ), db);
         insererEpreuve(new Epreuve(
                 "Qui est ce personnage?",
-                new String[]{"Mega man", "Juge Dread", "Robot boy", "Optimus Prime"},
-                "Juge Dread",
+                new String[]{"Mega man", "juge dreed", "robot boy", "optimus pryme"},
+                "",
                 Epreuve.NIVEAU_DIFFICILE,
-                "juge-dread.jpg"
+                ""
         ), db);
         insererEpreuve(new Epreuve(
                 "Que demande cet homme?",
-                new String[]{"Où est-ce qu'il a appris à négocier?", "Où est-ce qu'il a appris à parler?", "Où est-ce qu'il a appris à chanter?", "Où est-ce qu'il a appris à se battre?"},
-                "Où est-ce qu'il a appris à négocier?",
+                new String[]{"ou est ce qu'il a appris a negocier?", "ou est ce qu'il a appris a parler?", "ou est ce qu'il a appris a chanter?", "ou est ce qu'il a appris a se battre?"},
+                "ou est ce qu'il a appris a negocier?",
                 Epreuve.NIVEAU_DIFFICILE,
-                "5eme-element-negociation.png"
+                ""
         ), db);
         insererEpreuve(new Epreuve(
-                "À quel film appartient cette scène?",
-                new String[]{"Demolition man", "Expendables", "Évasion", "Mafia love"},
-                "Demolition man",
-                Epreuve.NIVEAU_MOYEN,
-                "demolitionman.jpg"
+                "A quel film appartient cet scene?",
+                new String[]{"demolition man", "expendable", "evasion", "mafia love"},
+                "demolition man",
+                Epreuve.NIVEAU_DIFFICILE,
+                ""
         ), db);
         insererEpreuve(new Epreuve(
                 "Que fait-il?",
-                new String[]{"Il prend du papier toilette", "Il relève son courrier", "Il reçoit des ordres", "Il envoie un courrier"},
-                "Il prend du papier toilette",
+                new String[]{"il prend du papier toilette", "il releve son courrier", "il recoit des ordres", "il envoi un courrier"},
+                "il prend du papier toilette",
                 Epreuve.NIVEAU_DIFFICILE,
-                "demolition-man-papier.jpg"
+                ""
         ), db);
         insererEpreuve(new Epreuve(
                 "Qui est cet homme?",
-                new String[]{"le passager 57", "Blade", "john shaft", "50 cent"},
+                new String[]{"le passager 57", "Blade", "john shaft", "50cent"},
                 "le passager 57",
                 Epreuve.NIVEAU_DIFFICILE,
-                "passager57.jpg"
+                ""
         ), db);
         insererEpreuve(new Epreuve(
-                "Je suis...",
-                new String[]{"un flic a la maternelle", "Terminator", "Hercule a new york", "le shérif"},
+                "Je suis ...",
+                new String[]{"un flic a la maternelle", "terminator", "hercule a new york", "le sherif"},
                 "un flic a la maternelle",
                 Epreuve.NIVEAU_DIFFICILE,
-                "unflicmatternelle.jpg"
+                ""
         ), db);
         insererEpreuve(new Epreuve(
                 "J'ai un serpent...",
-                new String[]{"dans ma botte", "devant moi", "à mes trousses", "dans mon chapeau"},
+                new String[]{"dans ma botte", "devant moi", "a mes trousses", "dans mon chapeau"},
                 "dans ma botte",
                 Epreuve.NIVEAU_DIFFICILE,
-                "toy-story-serpent-botte.jpg"
-        ), db);/*
+                ""
+        ), db);
         insererEpreuve(new Epreuve(
                 "Qu'est-ce que woody a dans sa botte?",
                 new String[]{"un caillou", "un cactus", "une souris", "un serpent"},
                 "un serpent",
                 Epreuve.NIVEAU_DIFFICILE,
                 ""
-        ), db);*/
-        insererEpreuve(new Epreuve(
-                "Que fabrique le mask?",
-                new String[]{"un chien", "une giraffe", "un arme", "un masque"},
-                "une arme",
-                Epreuve.NIVEAU_DIFFICILE,
-                "mask-sulfateuse.png"
         ), db);
         insererEpreuve(new Epreuve(
-                "Que vient-il de voir?",
+                "Que fabrique le mask?",
+                new String[]{"un chien", "une girafe", "un arme", "un masque"},
+                "",
+                Epreuve.NIVEAU_DIFFICILE,
+                ""
+        ), db);
+        insererEpreuve(new Epreuve(
+                "Que vient il de voir?",
                 new String[]{"sa voisine", "son visage", "une joli fille", "une souris"},
                 "sa voisine",
                 Epreuve.NIVEAU_DIFFICILE,
-                "mask-voisin.jpg"
+                ""
         ), db);
         insererEpreuve(new Epreuve(
                 "Qui joue le role du grinch?",
-                new String[]{"Jim Carrey", "Eddy Murphy", "Adam Sandler", "Chris Toker"},
-                "Jim Carrey",
-                Epreuve.NIVEAU_MOYEN,
-                "grinch.jpg"
+                new String[]{"jim carrey", "eddy murphy", "adam sandler", "cris toker"},
+                "jim carrey",
+                Epreuve.NIVEAU_DIFFICILE,
+                ""
         ), db);
         insererEpreuve(new Epreuve(
-                "À qui appartient ce chapeau?",
-                new String[]{"Indiana Jones", "Flagada Jones", "Django", "Lucky Luke"},
-                "Indiana Jones",
+                "A qui appartient ce chapeau?",
+                new String[]{"indiana jones", "flagada jones", "django", "lucjy luck"},
+                "indiana jones",
                 Epreuve.NIVEAU_DIFFICILE,
-                "indiana-jones-fouet.png"
+                ""
         ), db);
         insererEpreuve(new Epreuve(
-                "Bonjour, je suis ..., votre assistant medical automatisé.",
-                new String[]{"Baymax", "Cémax", "Daymax", "Baymin"},
-                "Baymax",
+                "Bonjour, je suis bmax, votre assistant medical...",
+                new String[]{"automatise", "automatique", "de premiers soins", "d'urgence"},
+                "automatise",
                 Epreuve.NIVEAU_DIFFICILE,
-                "baymax.png"
+                ""
         ), db);
         insererEpreuve(new Epreuve(
                 "comment est surnomme max?",
@@ -385,16 +385,9 @@ public class GameDBHelper extends SQLiteOpenHelper {
                 ""
         ), db);
         insererEpreuve(new Epreuve(
-                "Comment s'appelle cette espionne?",
-                new String[]{"Carteapuce", "Antivirus", "Oeil de lynx", "Jyvoispasplus"},
-                "Carteapuce",
-                Epreuve.NIVEAU_DIFFICILE,
-                "asterix-cleopatre.jpg"
-        ), db);/*
-        insererEpreuve(new Epreuve(
-                "",
-                new String[]{"", "", "", ""},
-                "",
+                "comment s'appel cette espionne?",
+                new String[]{"carteapuce", "antivirus", "oeil de lynx", "jyvoispasplus"},
+                "carteapuce",
                 Epreuve.NIVEAU_DIFFICILE,
                 ""
         ), db);
@@ -453,7 +446,14 @@ public class GameDBHelper extends SQLiteOpenHelper {
                 "",
                 Epreuve.NIVEAU_DIFFICILE,
                 ""
-        ), db);*/
+        ), db);
+        insererEpreuve(new Epreuve(
+                "",
+                new String[]{"", "", "", ""},
+                "",
+                Epreuve.NIVEAU_DIFFICILE,
+                ""
+        ), db);
 
 
     }
