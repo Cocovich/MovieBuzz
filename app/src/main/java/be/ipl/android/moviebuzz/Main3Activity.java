@@ -70,7 +70,7 @@ public class Main3Activity extends AppCompatActivity {
         epreuve = DAO.getEpreuveFromCursor(dao.getRandomEpreuve());
 
         // Lookup views
-        ImageView image = (ImageView) findViewById(R.id.gameImage);
+        ResizableImageView image = (ResizableImageView) findViewById(R.id.gameImage);
         TextView question = (TextView) findViewById(R.id.gameQuestion);
         RadioButton prop1 = (RadioButton) findViewById(R.id.gameProp1);
         RadioButton prop2 = (RadioButton) findViewById(R.id.gameProp2);
@@ -88,6 +88,7 @@ public class Main3Activity extends AppCompatActivity {
                 InputStream ims = getAssets().open(epreuve.getCheminImage());
                 // load image as Drawable
                 Drawable d = Drawable.createFromStream(ims, null);
+
                 // set image to ImageView
                 image.setImageDrawable(d);
             } catch (IOException ignored) {
