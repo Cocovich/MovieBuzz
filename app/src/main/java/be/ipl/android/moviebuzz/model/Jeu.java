@@ -10,7 +10,7 @@ import be.ipl.android.moviebuzz.events.TimerListener;
 
 public class Jeu extends PriorityQueue<Epreuve> {
 
-    public static final int DEF_NOMBRE_EPREUVES = 15; // nombre d'épreuves max par défaut
+    public static final int DEF_NOMBRE_EPREUVES = 10; // nombre d'épreuves max par défaut
     public static final int DEF_NOMBRE_POINTS = 1500; // nombre de points max par défaut
     public static final int DEF_DUREE_MAX = 90; // durée du jeu par défaut (en secondes)
 
@@ -19,13 +19,16 @@ public class Jeu extends PriorityQueue<Epreuve> {
     private boolean inProgress = false;
     private int questionCount = DEF_NOMBRE_EPREUVES;
 
+    // Points
     private int maxPoints = DEF_NOMBRE_POINTS;
     private int points = 0;
 
+    // Durée jeu
     private int gameMaxDuration = DEF_DUREE_MAX; // limite de temps en minutes
     private int gameRemainingTime; // durée actuelle de la partie (en millisecondes)
     private CountDownTimer gameTimer;
 
+    // Durée question
     private int questionRemainingTime;
     public static final int BUZZ_TIMER = 10; // temps par question (en secondes)
     private CountDownTimer questionTimer;

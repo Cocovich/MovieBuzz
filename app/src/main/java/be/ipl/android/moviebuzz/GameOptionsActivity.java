@@ -13,9 +13,6 @@ import be.ipl.android.moviebuzz.model.Jeu;
 
 public class GameOptionsActivity extends AppCompatActivity {
 
-    private static String TROUVER_CHALLENGER = "Trouver challenger !!!";
-    public static final String PARAM_TYPE_EPR_CHOISI = "PARAM_TYPE_EPR_CHOISI";
-
     private SeekBar durationSeekBar;
     private SeekBar pointsSeekBar;
     private SeekBar questionsSeekBar;
@@ -94,7 +91,7 @@ public class GameOptionsActivity extends AppCompatActivity {
             public void onStopTrackingTouch(SeekBar seekBar) {}
         });
         // On remplit la valeur par défaut de la seekbar
-        pointsSeekBar.setProgress(Jeu.DEF_NOMBRE_EPREUVES);
+        questionsSeekBar.setProgress(Jeu.DEF_NOMBRE_EPREUVES);
     }
 
     public void onStartGame(View view) {

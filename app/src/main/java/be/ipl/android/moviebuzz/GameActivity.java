@@ -28,7 +28,6 @@ public class GameActivity extends AppCompatActivity implements TimerListener {
     public static final String PARAM_JEU_EPREUVES = "PARAM_JEU_EPREUVES";
     public static final String PARAM_JEU_POINTS = "PARAM_JEU_POINTS";
 
-    private DAO dao;
     private Jeu jeu;
 
     private TextView pointsView;
@@ -52,7 +51,7 @@ public class GameActivity extends AppCompatActivity implements TimerListener {
         jeu.addListener(this);
 
         // On remplit le jeu avec les épreuves sorties de la BDD
-        dao = new DAO(this);
+        DAO dao = new DAO(this);
         dao.open();
         dao.fillGame(jeu);
         dao.close();
