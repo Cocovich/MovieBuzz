@@ -3,120 +3,145 @@ package be.ipl.android.moviebuzz.model;
 import android.os.CountDownTimer;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.PriorityQueue;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import be.ipl.android.moviebuzz.events.TimerEvent;
 import be.ipl.android.moviebuzz.events.TimerListener;
+import be.ipl.android.moviebuzz.exceptions.EmptyGameException;
+import be.ipl.android.moviebuzz.exceptions.EndOfGameException;
 
-public class Jeu extends PriorityQueue<Epreuve> {
+public abstract class Jeu {
+
+    private static final int TIMER_EVENT = 1;
+    private static final int END_GAME_EVENT = 2;
 
     public static final int DEF_NOMBRE_EPREUVES = 10; // nombre d'épreuves max par défaut
     public static final int DEF_NOMBRE_POINTS = 1500; // nombre de points max par défaut
-    public static final int DEF_DUREE_MAX = 90; // durée du jeu par défaut (en secondes)
+    public static final int DEF_DUREE = 90; // durée max du jeu par défaut (en secondes)
 
-    private ArrayList<TimerListener> listeners = new ArrayList<>();
+    protected ArrayList<TimerListener> listeners = new ArrayList<>();
 
-    private boolean inProgress = false;
-    private int questionCount = DEF_NOMBRE_EPREUVES;
+    // Epreuves
+    protected Iterator<Epreuve> iterator;
+    protected PriorityQueue<Epreuve> epreuves = new PriorityQueue<>();
+    protected Epreuve epreuve;
+    protected int nbEpreuves = 0; // Nombre d'épreuves passées
+    protected int maxEpreuves = 0; // Nombre d'épreuves à pré-charger ("0" signifie "tout")
 
     // Points
-    private int maxPoints = DEF_NOMBRE_POINTS;
-    private int points = 0;
+    protected int points = 0; // points total de la partie
 
     // Durée jeu
-    private int gameMaxDuration = DEF_DUREE_MAX; // limite de temps en minutes
-    private int gameRemainingTime; // durée actuelle de la partie (en millisecondes)
-    private CountDownTimer gameTimer;
+    protected int gameTime = 0; // durée actuelle de la partie (en secondes)
+    protected Timer gameTimer; // timer jeu
 
     // Durée question
-    private int questionRemainingTime;
     public static final int BUZZ_TIMER = 10; // temps par question (en secondes)
-    private CountDownTimer questionTimer;
+    protected int questionRemainingTime; // temps restant question (en millisecondes)
+    protected CountDownTimer questionTimer; // timer question
 
-    public Jeu(int questionCount, int gameRemainingTime, int gamePoints) {
-        this.questionCount = questionCount;
-        this.gameMaxDuration = gameRemainingTime;
-        this.gameRemainingTime = gameRemainingTime;
-        this.maxPoints = gamePoints;
+    public void addEpreuve(Epreuve epreuve) {
+        epreuves.add(epreuve);
     }
 
-    public int getQuestionCount() {
-        return questionCount;
+    public void removeEpreuve(Epreuve epreuve) {
+        epreuves.remove(epreuve);
+    }
+
+    public PriorityQueue<Epreuve> getEpreuves() {
+        return epreuves;
+    }
+
+    public Epreuve getEpreuve() {
+        return epreuve;
+    }
+
+    public Epreuve nextEpreuve() {
+        questionTimer.cancel();
+
+        if (iterator.hasNext())
+            epreuve = iterator.next();
+        else if (isGameFinished())
+            throw new EndOfGameException();
+
+        questionTimer.start();
+
+        return epreuve;
+    }
+
+    public int getMaxEpreuves() {
+        return maxEpreuves;
+    }
+
+    public int getGameTime() {
+        return gameTime;
     }
 
     public int getQuestionRemainingTime() {
         return questionRemainingTime;
     }
 
-    public int getGameRemainingTime() {
-        return gameRemainingTime;
-    }
-
     public int getPoints() {
         return points;
     }
 
-    public boolean isInProgress() {
-        return inProgress && ! isEmpty();
-    }
-
     public void start() {
-        inProgress = true;
+
+        if (epreuves.size() == 0)
+            throw new EmptyGameException();
 
         // Timer jeu
-        gameTimer = new CountDownTimer(gameMaxDuration * 1000, 1000) {
-            public void onTick(long millisUntilFinished) {
-                gameRemainingTime = (int) millisUntilFinished / 1000;
-                triggerEvent();
+        gameTimer = new Timer("Timer jeu");
+        gameTimer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                gameTime += 1;
+                if (isGameFinished())
+                    triggerEvent(END_GAME_EVENT);
+                triggerEvent(TIMER_EVENT);
             }
-
-            public void onFinish() {
-                triggerEvent();
-                //TODO qui a gagner dans le dialog machin
-            }
-            //
-        }.start();
+        }, 0, 1000);
 
         // Timer question
         questionTimer = new CountDownTimer(BUZZ_TIMER * 1000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
                 questionRemainingTime = (int) millisUntilFinished;
-                triggerEvent();
+                triggerEvent(TIMER_EVENT);
             }
 
             @Override
             public void onFinish() {
                 questionRemainingTime = 0;
-                triggerEvent();
+                triggerEvent(TIMER_EVENT);
             }
         }.start();
+
+        iterator = epreuves.iterator();
+        epreuve = iterator.next();
     }
 
     public boolean buzz(String choice) {
-        Epreuve epreuve = peek();
-        boolean bonneReponse = epreuve.answer(choice);
-        if (bonneReponse) {
+
+        nbEpreuves++;
+        boolean isTrue = epreuve.answer(choice);
+
+        if (isTrue) {
+            // Calcul points
             int answerTime = BUZZ_TIMER*1000 - questionRemainingTime; // temps de réponse
             points += epreuve.computePoints(answerTime, questionRemainingTime);
         }
-        return bonneReponse;
+
+        return isTrue;
     }
 
-    public Epreuve getQuestion() {
-        if (!isInProgress())
-            return null;
-        return peek();
-    }
+    public abstract boolean isGameFinished();
 
-    public void nextQuestion() {
-        questionTimer.cancel();
-        questionTimer.start();
-        poll();
-    }
-
-    public void finish() {
-        this.inProgress = false;
+    public boolean isWon() {
+        return true;
     }
 
     public void addListener(TimerListener listener) {
@@ -127,9 +152,17 @@ public class Jeu extends PriorityQueue<Epreuve> {
         listeners.remove(listener);
     }
 
-    public void triggerEvent() {
+    public void triggerEvent(int eventType) {
         TimerEvent event = new TimerEvent(this);
-        for (TimerListener listener : listeners)
-            listener.timerChanged(event);
+        for (TimerListener listener : listeners) {
+            switch (eventType) {
+                case TIMER_EVENT:
+                    listener.timerChanged(event);
+                    break;
+                case END_GAME_EVENT:
+                    listener.endOfTimer(event);
+                    break;
+            }
+        }
     }
 }

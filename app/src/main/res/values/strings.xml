@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">MovieBuzz</string>
     <string name="action_settings">Settings</string>
-    <string name="title_game_options_activity">GameOptionsActivity</string>
-    <string name="title_game_activity">GameActivity</string>
+    <string name="title_game_options_activity">Type de jeu</string>
+    <string name="title_game_activity">Quizz</string>
 
     <!-- Accueil -->
     <string name="new_game">Nouvelle partie</string>

@@ -1,9 +1,11 @@
 package be.ipl.android.moviebuzz;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -18,9 +20,13 @@ import java.io.InputStream;
 
 import be.ipl.android.moviebuzz.events.TimerEvent;
 import be.ipl.android.moviebuzz.events.TimerListener;
+import be.ipl.android.moviebuzz.exceptions.EndOfGameException;
 import be.ipl.android.moviebuzz.model.DAO;
 import be.ipl.android.moviebuzz.model.Epreuve;
 import be.ipl.android.moviebuzz.model.Jeu;
+import be.ipl.android.moviebuzz.model.JeuContreMontre;
+import be.ipl.android.moviebuzz.model.JeuMaxEpreuves;
+import be.ipl.android.moviebuzz.model.JeuMaxPoints;
 
 public class GameActivity extends AppCompatActivity implements TimerListener {
 
@@ -44,10 +50,20 @@ public class GameActivity extends AppCompatActivity implements TimerListener {
 
         // On reçoit les paramètres de jeu
         Intent intent = getIntent();
-        int dureeMax = intent.getIntExtra(PARAM_JEU_DUREE, Jeu.DEF_DUREE_MAX);
-        int epreuvesMax = intent.getIntExtra(PARAM_JEU_EPREUVES, Jeu.DEF_NOMBRE_EPREUVES);
-        int pointsMax = intent.getIntExtra(PARAM_JEU_POINTS, Jeu.DEF_NOMBRE_POINTS);
-        jeu = new Jeu(epreuvesMax, dureeMax, pointsMax);
+        int dureeMax = intent.getIntExtra(PARAM_JEU_DUREE, 0);
+        int epreuvesMax = intent.getIntExtra(PARAM_JEU_EPREUVES, 0);
+        int pointsMax = intent.getIntExtra(PARAM_JEU_POINTS, 0);
+
+        // On crée le jeu selon son type
+        if (dureeMax != 0)
+            jeu = new JeuContreMontre(dureeMax);
+        else if (epreuvesMax != 0)
+            jeu = new JeuMaxEpreuves(epreuvesMax);
+        else if (pointsMax != 0)
+            jeu = new JeuMaxPoints(pointsMax);
+        else
+            throw new RuntimeException("Pas de type d'épreuve sélectionnée");
+
         jeu.addListener(this);
 
         // On remplit le jeu avec les épreuves sorties de la BDD
@@ -73,15 +89,31 @@ public class GameActivity extends AppCompatActivity implements TimerListener {
     }
 
     private void endGame() {
-        jeu.finish();
-        /*Intent intent = new Intent(this, GameEndActivity.class);
-        intent.putExtra(GameEndActivity.WIN, jeu.estGagne());
-        startActivity(intent);*/
+
+        AlertDialog.Builder adb = new AlertDialog.Builder(this);
+        //On modifie l'icône de l'AlertDialog pour le fun ;)
+        //adb.setIcon(android.R.drawable.ic_dialog_alert);
+
+        final Intent menuIntent = new Intent(this, MainActivity.class);
+
+        if (jeu.isWon()) {
+            adb.setTitle("Vous avez gagné !");
+        } else {
+            adb.setTitle("Vous avez perdu :(");
+        }
+        adb.setMessage("Vous avez récolté "+jeu.getPoints()+" points.");
+        adb.setNeutralButton("Retourner au menu", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                startActivity(menuIntent);
+            }
+        });
+
+        adb.show();
     }
 
     private void refresh() {
 
-        Epreuve epreuve = jeu.getQuestion();
+        Epreuve epreuve = jeu.getEpreuve();
 
         // Image
         if (epreuve.getCheminImage() != null) {
@@ -113,79 +145,20 @@ public class GameActivity extends AppCompatActivity implements TimerListener {
 
         String message;
         if (bonneReponse) {
-            message = "Bonne réponse !!!\n+" + jeu.getQuestion().getPoints() + " points";
+            message = "Bonne réponse !!!\n+" + jeu.getEpreuve().getPoints() + " points";
             pointsView.setText(String.valueOf(jeu.getPoints()));
         } else {
-            message = "Non... La bonne réponse était :\n" + jeu.getQuestion().getReponse();
+            message = "Non... La bonne réponse était :\n" + jeu.getEpreuve().getReponse();
         }
         Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
 
-        jeu.nextQuestion();
-
-        if (jeu.isInProgress()) {
+        try {
+            jeu.nextEpreuve();
             refresh();
-        } else {
+        } catch (EndOfGameException e) {
             endGame();
         }
     }
-
-    /*public void contreMontre() {
-
-        jeu = new JeuContreLaMontre(nombreVoulu);
-        ((JeuContreLaMontre) jeu).addListener(this);
-
-        TextView points = (TextView) findViewById(R.id.points);
-        final TextView timerContreMontre = (TextView) findViewById(R.id.valeur_indic);
-        final TextView labelTimer = (TextView) findViewById(R.id.indicateur);
-
-        // creation  et lancement du compte a rebour Total du compte a rebour
-        // avec le minute et seconde//
-        CountDownTimer timerTotal = new CountDownTimer(this.nombreVoulu * 60 * 1000, 1000) {
-            public void onTick(long millisUntilFinished) {
-                //mise a jour du timer contre montre
-                long temp = millisUntilFinished / 1000;
-                long minute = temp / 60 % 60;
-                long seconde = temp % 60;
-                timerContreMontre.setText("" + minute + ":" + seconde);
-                if (temp < 5) timerContreMontre.setTextColor(Color.RED);
-                if (temp <= 1) timerContreMontre.setTextColor(Color.GRAY);
-            }
-
-            public void onFinish() {
-                timerContreMontre.setText("0");
-                //TODO qui a gagner dans le dialog machin
-            }
-            //
-        }.start();
-        //timerPoint.start();
-        lancerTimer();
-        //buzz();
-    }
-
-    public void maxPoints() {
-        TextView points = (TextView) findViewById(R.id.points);
-        // affichage du nombre max de point
-        final TextView maxpoint = (TextView) findViewById(R.id.valeur_indic);
-
-        final TextView indicateurMaxPoint = (TextView) findViewById(R.id.indicateur);
-        maxpoint.setText("" + this.nombreVoulu);
-        indicateurMaxPoint.setText("Max points");
-
-        timerPoint.start();
-        //buzz();
-    }
-
-    public void maxEpreuves() {
-        TextView points = (TextView) findViewById(R.id.points);
-        // affichage du nombre max de point
-        final TextView resteEpreuve = (TextView) findViewById(R.id.valeur_indic);
-        final TextView indicateurMaxEpreuve = (TextView) findViewById(R.id.indicateur);
-        resteEpreuve.setText("" + this.nombreVoulu);
-        indicateurMaxEpreuve.setText("Restants");
-
-        timerPoint.start();
-        //buzz();
-    }*/
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -221,12 +194,22 @@ public class GameActivity extends AppCompatActivity implements TimerListener {
 
         /* Timer jeu */
 
-        int seconds = jeu.getGameRemainingTime();
+        int seconds;
+        if (jeu instanceof JeuContreMontre)
+            seconds = ((JeuContreMontre) jeu).getGameRemainingTime();
+        else
+            seconds = jeu.getGameTime();
+
         int minutes = seconds / 60;
         int secondes = seconds % 60;
 
         gameTimer.setText(String.format("%02d:%02d", minutes, secondes));
         if (seconds <= 10) gameTimer.setTextColor(Color.RED);
         if (seconds <= 1) gameTimer.setTextColor(Color.GRAY);
+    }
+
+    @Override
+    public void endOfTimer(TimerEvent event) {
+        endGame();
     }
 }

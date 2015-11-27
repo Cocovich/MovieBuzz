@@ -26,8 +26,11 @@ public class DAO {
     }
 
     public void fillGame(Jeu jeu) {
-        Cursor cursor = sqLiteDatabase.rawQuery(
-                "SELECT * FROM "+ModelContract.GameDBEntry.TABLE_NAME+" ORDER BY RANDOM() LIMIT "+String.valueOf(jeu.getQuestionCount()), null);
+        String query = "SELECT * FROM "+ModelContract.GameDBEntry.TABLE_NAME+" ORDER BY RANDOM()";
+        if (jeu.getMaxEpreuves() > 0)
+            query += " LIMIT "+String.valueOf(jeu.getMaxEpreuves());
+
+        Cursor cursor = sqLiteDatabase.rawQuery(query, null);
 
         while (cursor.moveToNext()) {
             int id = cursor.getInt(0);
@@ -38,7 +41,7 @@ public class DAO {
             int difficulte = cursor.getInt(4);
             String image = cursor.getString(5);
 
-            jeu.add(new Epreuve(question, propositions, reponse, difficulte, image));
+            jeu.addEpreuve(new Epreuve(question, propositions, reponse, difficulte, image));
         }
     }
 }
