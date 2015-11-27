@@ -15,8 +15,8 @@ import be.ipl.android.moviebuzz.exceptions.EndOfGameException;
 
 public abstract class Jeu {
 
-    private static final int TIMER_EVENT = 1;
-    private static final int END_GAME_EVENT = 2;
+    protected static final int TIMER_EVENT = 1;
+    protected static final int END_GAME_EVENT = 2;
 
     public static final int DEF_NOMBRE_EPREUVES = 10; // nombre d'épreuves max par défaut
     public static final int DEF_NOMBRE_POINTS = 1500; // nombre de points max par défaut
@@ -98,12 +98,10 @@ public abstract class Jeu {
         gameTimer.schedule(new TimerTask() {
             @Override
             public void run() {
-                gameTime += 1;
-                if (isGameFinished())
-                    triggerEvent(END_GAME_EVENT);
-                triggerEvent(TIMER_EVENT);
+                if (!isGameFinished())
+                    gameTime += 1;
             }
-        }, 0, 1000);
+        }, 1000, 1000);
 
         // Timer question
         questionTimer = new CountDownTimer(BUZZ_TIMER * 1000, 1000) {
