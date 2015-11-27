@@ -25,25 +25,20 @@ public class DAO {
         sqLiteDatabase.close();
     }
 
-    public static Epreuve getEpreuveFromCursor(Cursor cursor) {
+    public void fillGame(Jeu jeu) {
+        Cursor cursor = sqLiteDatabase.rawQuery(
+                "SELECT * FROM "+ModelContract.GameDBEntry.TABLE_NAME+" ORDER BY RANDOM() LIMIT "+String.valueOf(jeu.getQuestionCount()), null);
 
-        if (cursor.moveToNext()) {
+        while (cursor.moveToNext()) {
             int id = cursor.getInt(0);
             String question = cursor.getString(1);
-            String[] propositions = cursor.getString(2).split(Epreuve.PROPS_DELIMITER);
+            String[] propositions = Util.split(cursor.getString(2));
             String reponse = cursor.getString(3);
             @Epreuve.DifficultyLevel
             int difficulte = cursor.getInt(4);
             String image = cursor.getString(5);
 
-            return new Epreuve(question, propositions, reponse, difficulte, image);
+            jeu.add(new Epreuve(question, propositions, reponse, difficulte, image));
         }
-
-        return null;
-    }
-
-    public Cursor getRandomEpreuve() {
-        return sqLiteDatabase.rawQuery(
-                "SELECT * FROM "+ModelContract.GameDBEntry.TABLE_NAME+" ORDER BY RANDOM() LIMIT 1", null);
     }
 }

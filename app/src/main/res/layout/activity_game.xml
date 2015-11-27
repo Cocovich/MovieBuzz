@@ -65,14 +65,14 @@
                 android:orientation="vertical"
                 android:padding="0dp"
                 android:layout_margin="0dp"
+                android:layout_marginLeft="17dp"
                 android:id="@+id/radiogroup">
 
-                <RadioButton
+                <!--<RadioButton
                     android:id="@+id/gameProp1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left|center_horizontal"
-                    android:layout_marginLeft="17dp"
                     android:checked="false"
                     android:clickable="true"
                     android:layout_marginTop="0dp" />
@@ -82,7 +82,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left|center_horizontal"
-                    android:layout_marginLeft="17dp"
                     android:checked="false"
                     android:clickable="true" />
 
@@ -91,7 +90,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left|center_horizontal"
-                    android:layout_marginLeft="17dp"
                     android:checked="false"
                     android:clickable="true" />
 
@@ -100,9 +98,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left|center_horizontal"
-                    android:layout_marginLeft="17dp"
                     android:checked="false"
-                    android:clickable="true" />
+                    android:clickable="true" />-->
             </RadioGroup>
         </LinearLayout>
 
@@ -120,7 +117,7 @@
                 android:layout_height="36dp"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="10"
-                android:id="@+id/timer"
+                android:id="@+id/questionTimer"
                 android:textColor="#13d006"
                 android:visibility="visible"
                 android:gravity="center_horizontal" />
@@ -149,8 +146,8 @@
         android:layout_width="50dp"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="points"
-        android:id="@+id/textView6"
+        android:text="@string/game_points"
+        android:id="@+id/gameLabelPoints"
         android:layout_gravity="right|top" />
 
     <TextView
@@ -158,7 +155,7 @@
         android:layout_height="42dp"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="0"
-        android:id="@+id/points"
+        android:id="@+id/gameValuePoints"
         android:layout_gravity="right|top"
         android:textColor="#ffcf01"
         android:textSize="27dp"
@@ -177,8 +174,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="timer"
-        android:id="@+id/indicateur"
+        android:text="@string/game_timer"
+        android:id="@+id/gameLabelTimer"
         android:layout_gravity="right|top"
         android:layout_marginTop="95dp"
         android:visibility="visible" />
@@ -187,8 +184,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="valeur"
-        android:id="@+id/valeur_indic"
+        android:id="@+id/gameValueTimer"
         android:layout_gravity="right|top"
         android:layout_marginTop="110dp"
         android:visibility="visible" />

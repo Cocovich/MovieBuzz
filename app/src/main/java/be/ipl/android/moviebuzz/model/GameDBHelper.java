@@ -5,7 +5,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import be.ipl.android.moviebuzz.model.ModelContract.*;
+import be.ipl.android.moviebuzz.model.ModelContract.GameDBEntry;
 
 public class GameDBHelper extends SQLiteOpenHelper {
 
@@ -42,7 +42,7 @@ public class GameDBHelper extends SQLiteOpenHelper {
     private void insererEpreuve(Epreuve epreuve, SQLiteDatabase db) {
         ContentValues valeurs = new ContentValues();
         valeurs.put(GameDBEntry.COLUMN_NAME_QUESTION, epreuve.getQuestion());
-        valeurs.put(GameDBEntry.COLUMN_NAME_PROPOSITIONS, Util.join(epreuve.getPropositions(), Epreuve.PROPS_DELIMITER));
+        valeurs.put(GameDBEntry.COLUMN_NAME_PROPOSITIONS, Util.join(epreuve.getPropositions()));
         valeurs.put(GameDBEntry.COLUMN_NAME_ANSWER, epreuve.getReponse());
         valeurs.put(GameDBEntry.COLUMN_NAME_DIFFICULTY, epreuve.getDifficulte());
         valeurs.put(GameDBEntry.COLUMN_NAME_IMAGE, epreuve.getCheminImage());
