@@ -99,7 +99,7 @@
         android:layout_below="@+id/gameInfoBar"
         android:layout_above="@+id/gameQuestion">
 
-        <be.ipl.android.moviebuzz.ResizableImageView
+        <be.ipl.android.moviebuzz.views.ResizableImageView
             android:id="@+id/gameImage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

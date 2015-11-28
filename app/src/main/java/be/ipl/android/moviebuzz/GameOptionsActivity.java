@@ -22,6 +22,8 @@ public class GameOptionsActivity extends AppCompatActivity {
     private TextView value;
     private SeekBar seekBar;
 
+    private int min, max, step;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,7 +72,7 @@ public class GameOptionsActivity extends AppCompatActivity {
         // Bouton "Commencer"
         adb.setPositiveButton("Commencer", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
-                gameIntent.putExtra(key, seekBar.getProgress());
+                gameIntent.putExtra(key, (seekBar.getProgress()+min/step)*step);
                 startActivity(gameIntent);
             }
         });
@@ -87,12 +89,16 @@ public class GameOptionsActivity extends AppCompatActivity {
     }
 
     private void constructDurationSeekBar() {
-        seekBar.setMax(600);
-        seekBar.setKeyProgressIncrement(10);
+        min = 30; // secondes
+        max = 600; // secondes
+        step = 10; // secondes
+
+        seekBar.setMax((max-min)/step);
         // On associe un listener à la seekbar qui met à jour le label à chaque changement de valeur
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                progress = (progress+min/step)*step;
                 int minutes = progress / 60;
                 int secondes = progress % 60;
                 value.setText(String.format("%02d:%02d", minutes, secondes));
@@ -107,17 +113,20 @@ public class GameOptionsActivity extends AppCompatActivity {
             }
         });
         // On remplit la valeur par défaut de la seekbar
-        seekBar.setProgress(Jeu.DEF_DUREE);
+        seekBar.setProgress((Jeu.DEF_DUREE-min)/step);
     }
 
     private void constructPointsSeekBar() {
-        seekBar.setMax(5000);
-        seekBar.setKeyProgressIncrement(100);
+        min = 300; // points
+        max = 5000; // points
+        step = 100; // points
+
+        seekBar.setMax((max-min)/step);
         // On associe un listener à la seekbar qui met à jour le label à chaque changement de valeur
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                value.setText(String.format("%d points", progress));
+                value.setText(String.format("%d points", (progress+min/step)*step));
             }
 
             @Override
@@ -127,17 +136,20 @@ public class GameOptionsActivity extends AppCompatActivity {
             public void onStopTrackingTouch(SeekBar seekBar) {}
         });
         // On remplit la valeur par défaut de la seekbar
-        seekBar.setProgress(Jeu.DEF_NOMBRE_POINTS);
+        seekBar.setProgress((Jeu.DEF_NOMBRE_POINTS-min)/step);
     }
 
     private void constructQuestionsSeekBar() {
-        seekBar.setMax(30);
-        seekBar.setKeyProgressIncrement(1);
+        min = 5; // épreuves
+        max = 30; // épreuves
+        step = 1; // épreuves
+
+        seekBar.setMax((max-min)/step);
         // On associe un listener à la seekbar qui met à jour le label à chaque changement de valeur
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                value.setText(String.format("%d épreuves", progress));
+                value.setText(String.format("%d épreuves", (progress+min/step)*step));
             }
 
             @Override
@@ -147,7 +159,7 @@ public class GameOptionsActivity extends AppCompatActivity {
             public void onStopTrackingTouch(SeekBar seekBar) {}
         });
         // On remplit la valeur par défaut de la seekbar
-        seekBar.setProgress(Jeu.DEF_NOMBRE_EPREUVES);
+        seekBar.setProgress((Jeu.DEF_NOMBRE_EPREUVES-min)/step);
     }
 
 

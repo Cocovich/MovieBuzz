@@ -1,4 +1,4 @@
-package be.ipl.android.moviebuzz;
+package be.ipl.android.moviebuzz.views;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;

@@ -11,6 +11,7 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -40,7 +41,7 @@ public class GameActivity extends AppCompatActivity implements TimerListener {
     private TextView epreuveView;
     private TextView pointsView;
     private TextView gameTimer;
-    private ResizableImageView imageView;
+    private ImageView imageView;
     private TextView questionView;
     private RadioGroup radioGroup;
     private TextView questionTimer;
@@ -78,7 +79,7 @@ public class GameActivity extends AppCompatActivity implements TimerListener {
         epreuveView = (TextView) findViewById(R.id.gameValueEpreuve);
         gameTimer = (TextView) findViewById(R.id.gameValueTimer);
         pointsView = (TextView) findViewById(R.id.gameValuePoints);
-        imageView = (ResizableImageView) findViewById(R.id.gameImage);
+        imageView = (ImageView) findViewById(R.id.gameImage);
         questionView = (TextView) findViewById(R.id.gameQuestion);
         radioGroup = (RadioGroup) findViewById(R.id.radiogroup);
         questionTimer = (TextView) findViewById(R.id.questionTimer);
