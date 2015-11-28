@@ -51,10 +51,9 @@ public class GameOptionsActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "New Device = " + device.getName(), Toast.LENGTH_SHORT).show();
             }
         }
-
     };
     private IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
-    private Intent registerReceiver = registerReceiver(bluetoothReceiver, filter);//a destroy a la fin
+    Intent registerReceiver = null;//a destroy a la fin
     private static final UUID MY_UUID_INSECURE = UUID.fromString("8ce255c0-200a-11e0-ac64-0800200c9a66");
     private static final String NAME_INSECURE = "BluetoothInsecure";
     //on linstancie slmnt si clic sur trouverchallenger
@@ -64,15 +63,21 @@ public class GameOptionsActivity extends AppCompatActivity {
 
 
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
 
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        registerReceiver = registerReceiver(bluetoothReceiver, filter);
+
+        setContentView(R.layout.activity_game_options);
+    }
+
+    @Override
+    protected void onStart() {
         this.verificationBluetooth();
         // on lance le serveur dans tt les cas pour si on recoit une invitation
         serveurBluetooth= new ServeurBluetooth();
         serveurBluetooth.start();
-        setContentView(R.layout.activity_game_options);
+        super.onStart();
     }
 
     public void onClickContreMontre(View view) {
