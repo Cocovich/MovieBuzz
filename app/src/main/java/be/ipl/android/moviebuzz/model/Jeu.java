@@ -1,6 +1,7 @@
 package be.ipl.android.moviebuzz.model;
 
 import android.os.CountDownTimer;
+import android.os.Handler;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -64,7 +65,7 @@ public abstract class Jeu {
 
         if (iterator.hasNext())
             epreuve = iterator.next();
-        else if (isGameFinished())
+        if (isGameFinished())
             throw new EndOfGameException();
 
         questionTimer.start();
@@ -84,6 +85,10 @@ public abstract class Jeu {
         return questionRemainingTime;
     }
 
+    public int getNbEpreuves() {
+        return nbEpreuves;
+    }
+
     public int getPoints() {
         return points;
     }
@@ -98,8 +103,12 @@ public abstract class Jeu {
         gameTimer.schedule(new TimerTask() {
             @Override
             public void run() {
-                if (!isGameFinished())
+                if (!isGameFinished()) {
                     gameTime += 1;
+                    updateGameTimer();
+                }
+                else
+                    cancel();
             }
         }, 1000, 1000);
 
@@ -125,7 +134,7 @@ public abstract class Jeu {
     public boolean buzz(String choice) {
 
         nbEpreuves++;
-        boolean isTrue = epreuve.answer(choice);
+        boolean isTrue = epreuve.check(choice);
 
         if (isTrue) {
             // Calcul points
@@ -163,4 +172,19 @@ public abstract class Jeu {
             }
         }
     }
+
+    /* Code pour màj le timer de jeu
+     * @link http://www.techsono.com/consult/update-android-gui-timer/
+     */
+    final Handler myHandler = new Handler(); // handler pour màj le timer de jeu dans l'activité
+
+    public void updateGameTimer() {
+        myHandler.post(myRunnable);
+    }
+
+    final Runnable myRunnable = new Runnable() {
+        public void run() {
+            triggerEvent(TIMER_EVENT);
+        }
+    };
 }

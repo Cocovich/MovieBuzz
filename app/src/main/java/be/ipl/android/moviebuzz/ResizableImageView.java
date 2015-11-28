@@ -3,7 +3,6 @@ package be.ipl.android.moviebuzz;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.widget.ImageView;
 
 /**
@@ -18,19 +17,19 @@ public class ResizableImageView extends ImageView {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        //recupere limage
+
         Drawable d = getDrawable();
 
         if (d != null) {
 
             int width = MeasureSpec.getSize(widthMeasureSpec);
             int height = MeasureSpec.getSize(heightMeasureSpec);
-            //si largeur domine
-            if (width >= height) {
-                width = (int) Math.ceil((float) height * (float) d.getIntrinsicWidth() / (float) d.getIntrinsicHeight());
-                //si hauteur domine...
-            } else {
 
+            if (width >= height) {
+                //si largeur domine
+                width = (int) Math.ceil((float) height * (float) d.getIntrinsicWidth() / (float) d.getIntrinsicHeight());
+            } else {
+                //si hauteur domine...
                 height = (int) Math.ceil((float) width * (float) d.getIntrinsicHeight() / (float) d.getIntrinsicWidth());
             }
 

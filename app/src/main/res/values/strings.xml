@@ -10,8 +10,9 @@
     <string name="options">Options</string>
 
     <!-- Game -->
-    <string name="game_points">Points</string>
+    <string name="game_epreuves">Épreuve</string>
     <string name="game_timer">Timer</string>
+    <string name="game_points">Points</string>
     <string name="buzz_Bouton_Valider">BUZZ !</string>
 
     <!-- Game options -->
@@ -24,4 +25,5 @@
     <!-- Statistics -->
     <string name="title_activity_stats">StatsActivity</string>
     <string name="stats_total_points">Points cumulés</string>
+    <string name="buzzer_description">Buzzer</string>
 </resources>

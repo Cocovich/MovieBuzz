@@ -88,7 +88,7 @@ public class Epreuve implements Comparable<Epreuve> {
         return points;
     }
 
-    public boolean answer(@NonNull String choice) {
+    public boolean check(@NonNull String choice) {
         return reponse.equals(choice);
     }
 

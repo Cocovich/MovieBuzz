@@ -1,192 +1,170 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:clickable="true"
-    android:nestedScrollingEnabled="false"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:orientation="vertical"
-    android:weightSum="1">
+    android:layout_gravity="center_horizontal"
+    android:scaleType="centerCrop">
 
     <RelativeLayout
-        android:layout_width="245dp"
-        android:layout_height="280dp"
-        android:orientation="vertical"
-        android:layout_gravity="center_horizontal"
-        android:scaleType="centerCrop">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/gameInfoBar">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="@string/game_epreuves"
+            android:id="@+id/gameLabelEpreuves"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:id="@+id/gameValueEpreuve"
+            android:layout_gravity="right|top"
+            android:visibility="visible"
+            android:layout_below="@+id/gameLabelEpreuves"
+            android:layout_alignParentStart="false"
+            android:layout_alignParentLeft="false"
+            android:layout_alignRight="@+id/gameLabelEpreuves" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="@string/game_timer"
+            android:id="@+id/gameLabelTimer"
+            android:layout_gravity="right|top"
+            android:visibility="visible"
+            android:layout_alignParentStart="false"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="false"
+            android:layout_centerHorizontal="true"
+            android:textAlignment="center" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:id="@+id/gameValueTimer"
+            android:layout_gravity="right|top"
+            android:visibility="visible"
+            android:layout_below="@+id/gameLabelTimer"
+            android:textAlignment="center"
+            android:layout_centerHorizontal="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="@string/game_points"
+            android:id="@+id/gameLabelPoints"
+            android:layout_gravity="right|top"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:id="@+id/gameValuePoints"
+            android:layout_gravity="right|top"
+            android:textColor="#ffcf01"
+            android:textSize="27sp"
+            android:fontFamily="sans-serif-medium"
+            android:textStyle="normal|bold"
+            android:layout_alignParentBottom="false"
+            android:layout_alignParentLeft="false"
+            android:layout_alignParentStart="false"
+            android:layout_alignParentRight="false"
+            android:layout_alignParentEnd="false"
+            android:layout_below="@+id/gameLabelPoints"
+            android:layout_alignRight="@+id/gameLabelPoints" />
+    </RelativeLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/gameInfoBar"
+        android:layout_above="@+id/gameQuestion">
 
         <be.ipl.android.moviebuzz.ResizableImageView
             android:id="@+id/gameImage"
-            android:layout_width="fill_parent"
-            android:layout_centerVertical="true"
-            android:layout_height="fill_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:scaleType="centerCrop"
             android:layout_gravity="center" />
-        <!--shape est un xml ki garde des param pour le joli du contener...-->
-        <!-- android:layout_gravity="center_horizontal"
-            android:scaleType="fitCenter"
-            android:background="@drawable/shape"
-            android:maxHeight="100dp"
-            android:maxWidth="100dp" /-->
+    </FrameLayout>
 
-
-    </RelativeLayout>
-
-    <LinearLayout
+    <TextView
+        android:id="@+id/gameQuestion"
         android:layout_width="match_parent"
-        android:layout_height="153dp"
-        android:layout_gravity="left|bottom"
-        android:layout_weight="3.39"
-        android:orientation="horizontal"
-        android:visibility="visible"
-        android:weightSum="1">
-
-
-        <LinearLayout
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="left|center_horizontal"
-            android:layout_weight="0.50"
-            android:orientation="vertical"
-            android:visibility="visible"
-            >
-
-            <TextView
-                android:id="@+id/gameQuestion"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="left|center_horizontal"
-                android:layout_marginLeft="16dp"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="@android:color/black" />
-
-            <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="0dp"
-                android:layout_margin="0dp"
-                android:layout_marginLeft="17dp"
-                android:id="@+id/radiogroup">
-
-                <!--<RadioButton
-                    android:id="@+id/gameProp1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="left|center_horizontal"
-                    android:checked="false"
-                    android:clickable="true"
-                    android:layout_marginTop="0dp" />
-
-                <RadioButton
-                    android:id="@+id/gameProp2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="left|center_horizontal"
-                    android:checked="false"
-                    android:clickable="true" />
-
-                <RadioButton
-                    android:id="@+id/gameProp3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="left|center_horizontal"
-                    android:checked="false"
-                    android:clickable="true" />
-
-                <RadioButton
-                    android:id="@+id/gameProp4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="left|center_horizontal"
-                    android:checked="false"
-                    android:clickable="true" />-->
-            </RadioGroup>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="50dp"
-            android:layout_height="167dp"
-            android:layout_weight="0.47"
-            android:visibility="visible"
-            android:orientation="vertical"
-            android:gravity="right"
-            android:weightSum="1">
-
-            <TextView
-                android:layout_width="105dp"
-                android:layout_height="36dp"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="10"
-                android:id="@+id/questionTimer"
-                android:textColor="#13d006"
-                android:visibility="visible"
-                android:gravity="center_horizontal" />
-
-            <Button
-                android:id="@+id/button"
-                android:layout_width="110dp"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentTop="true"
-                android:text="@string/buzz_Bouton_Valider"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_weight="0.68"
-                android:textAlignment="center"
-                android:layout_marginTop="-16dp"
-                android:onClick="buzz" />
-
-        </LinearLayout>
-
-
-    </LinearLayout>
-
-    <TextView
-        android:layout_width="50dp"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="@string/game_points"
-        android:id="@+id/gameLabelPoints"
-        android:layout_gravity="right|top" />
-
-    <TextView
-        android:layout_width="72dp"
-        android:layout_height="42dp"
+        android:layout_gravity="left|center_horizontal"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="0"
-        android:id="@+id/gameValuePoints"
-        android:layout_gravity="right|top"
-        android:textColor="#ffcf01"
-        android:textSize="27dp"
-        android:gravity="right"
-        android:fontFamily="sans-serif-medium"
-        android:textStyle="normal|bold"
+        android:textColor="@android:color/black"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@+id/radiogroup" />
+
+    <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="270dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/radiogroup"
+        android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
+        android:orientation="vertical">
+    </RadioGroup>
+
+    <ImageButton
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:id="@+id/buzzerButton"
+        android:src="@drawable/buzzer"
+        android:background="@android:color/transparent"
+        android:textAlignment="center"
+        android:onClick="buzz"
+        android:adjustViewBounds="false"
+        android:clickable="true"
+        android:cropToPadding="false"
+        android:scaleType="centerCrop"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginRight="6dp"
-        android:layout_marginTop="13dp" />
+        android:contentDescription="@string/buzzer_description" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="@string/game_timer"
-        android:id="@+id/gameLabelTimer"
-        android:layout_gravity="right|top"
-        android:layout_marginTop="95dp"
-        android:visibility="visible" />
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="10"
+        android:id="@+id/questionTimer"
+        android:textColor="#13d006"
+        android:visibility="visible"
+        android:gravity="center_vertical|center_horizontal"
+        android:layout_alignParentEnd="false"
+        android:layout_alignParentRight="true"
+        android:layout_alignLeft="@+id/buzzerButton"
+        android:layout_alignRight="@+id/buzzerButton"
+        android:layout_alignTop="@+id/buzzerButton"
+        android:layout_alignBottom="@+id/buzzerButton" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:id="@+id/gameValueTimer"
-        android:layout_gravity="right|top"
-        android:layout_marginTop="110dp"
-        android:visibility="visible" />
 
-</FrameLayout>
+</RelativeLayout>

@@ -9,7 +9,7 @@ import be.ipl.android.moviebuzz.model.ModelContract.GameDBEntry;
 
 public class GameDBHelper extends SQLiteOpenHelper {
 
-    public static final int DATABASE_VERSION = 4;
+    public static final int DATABASE_VERSION = 5;
     public static final String DATABASE_NAME = "Game.db";
 
     private static final String SQL_CREATE_TABLE =
@@ -78,7 +78,7 @@ public class GameDBHelper extends SQLiteOpenHelper {
                 new String[]{"fruit rouge", "fruit de la passion", "fruit tropicaux", "fruit de mer"},
                 "fruit de la passion",
                 Epreuve.NIVEAU_DIFFICILE,
-                "badboysfruitpassion.jpg"
+                "bad-boys-flingues.jpg"
         ), db);
         insererEpreuve(new Epreuve(
                 "Que veux dire \"ouh ouh hi he ouuuh\"?",
@@ -126,28 +126,28 @@ public class GameDBHelper extends SQLiteOpenHelper {
         ), db);
         insererEpreuve(new Epreuve(
                 "Qui est cet homme?",
-                new String[]{"Pablo Escobar", "Dieu le pere", "Don Corleone", "Fidel Castro"},
+                new String[]{"Pablo Escobar", "Dieu le père", "Don Corléone", "Fidel Castro"},
                 "Don Corleone",
                 Epreuve.NIVEAU_DIFFICILE,
                 "parrain-don-corleone.jpg"
         ), db);
         insererEpreuve(new Epreuve(
                 "Pas de bras pas de...",
-                new String[]{"calin", "chocolat", "bisous", "bonbon"},
+                new String[]{"câlin", "chocolat", "bisous", "bonbon"},
                 "chocolat",
                 Epreuve.NIVEAU_DIFFICILE,
                 "pas-chocolat.png"
         ), db);
         insererEpreuve(new Epreuve(
                 "Que mangent les Avengers",
-                new String[]{"un shawarma", "un macDonald", "un calamar", "un omar"},
+                new String[]{"un shawarma", "un MacDonald", "un calamar", "un omar"},
                 "",
                 Epreuve.NIVEAU_DIFFICILE,
                 "shawarma.jpg"
         ), db);
         insererEpreuve(new Epreuve(
                 "Comment cet homme était-il surnommé?",
-                new String[]{"le gladiator", "le matador", "l'espagnol", "le general"},
+                new String[]{"le gladiator", "le matador", "l'espagnol", "le général"},
                 "l'espagnol",
                 Epreuve.NIVEAU_DIFFICILE,
                 "gladiator-espagnol.jpg"
@@ -196,7 +196,7 @@ public class GameDBHelper extends SQLiteOpenHelper {
         ), db);
         insererEpreuve(new Epreuve(
                 "Que veut dire \"mugiwara?\"",
-                new String[]{"roi des pirates", "capitaine", "ile au tresor", "chapeau de paille"},
+                new String[]{"roi des pirates", "capitaine", "île au tresor", "chapeau de paille"},
                 "chapeau de paille",
                 Epreuve.NIVEAU_DIFFICILE,
                 "mugiwara.png"
@@ -220,7 +220,7 @@ public class GameDBHelper extends SQLiteOpenHelper {
                 new String[]{"et bouillie a la sortie", "et bouillie a la fin", "et bouillie au final", "et bouillie comme principale"},
                 "et bouillie a la sortie",
                 Epreuve.NIVEAU_DIFFICILE,
-                ""
+                "mib-cafard.jpg"
         ), db);
         insererEpreuve(new Epreuve(
                 "Comment s'appelle ce chien?",
@@ -343,21 +343,21 @@ public class GameDBHelper extends SQLiteOpenHelper {
                 ""
         ), db);*/
         insererEpreuve(new Epreuve(
-                "Que fabrique le mask?",
-                new String[]{"un chien", "une giraffe", "un arme", "un masque"},
+                "Que fabrique le Mask?",
+                new String[]{"un chien", "une giraffe", "une arme", "un masque"},
                 "une arme",
                 Epreuve.NIVEAU_DIFFICILE,
                 "mask-sulfateuse.png"
         ), db);
         insererEpreuve(new Epreuve(
                 "Que vient-il de voir?",
-                new String[]{"sa voisine", "son visage", "une joli fille", "une souris"},
+                new String[]{"sa voisine", "son visage", "une jolie fille", "une souris"},
                 "sa voisine",
                 Epreuve.NIVEAU_DIFFICILE,
                 "mask-voisin.jpg"
         ), db);
         insererEpreuve(new Epreuve(
-                "Qui joue le role du grinch?",
+                "Qui joue le rôle du Grinch?",
                 new String[]{"Jim Carrey", "Eddy Murphy", "Adam Sandler", "Chris Toker"},
                 "Jim Carrey",
                 Epreuve.NIVEAU_MOYEN,
@@ -378,8 +378,8 @@ public class GameDBHelper extends SQLiteOpenHelper {
                 "baymax.png"
         ), db);
         insererEpreuve(new Epreuve(
-                "comment est surnomme max?",
-                new String[]{"poche de sang", "le prisionner", "le deserteur", "mad max"},
+                "Comment est surnommé Max?",
+                new String[]{"poche de sang", "le prisionner", "le déserteur", "mad max"},
                 "poche de sang",
                 Epreuve.NIVEAU_DIFFICILE,
                 ""

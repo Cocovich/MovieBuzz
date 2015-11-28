@@ -7,6 +7,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -36,6 +37,7 @@ public class GameActivity extends AppCompatActivity implements TimerListener {
 
     private Jeu jeu;
 
+    private TextView epreuveView;
     private TextView pointsView;
     private TextView gameTimer;
     private ResizableImageView imageView;
@@ -73,8 +75,9 @@ public class GameActivity extends AppCompatActivity implements TimerListener {
         dao.close();
 
         // On cherche les vues à contenu dynamique seulement une fois
-        pointsView = (TextView) findViewById(R.id.gameValuePoints);
+        epreuveView = (TextView) findViewById(R.id.gameValueEpreuve);
         gameTimer = (TextView) findViewById(R.id.gameValueTimer);
+        pointsView = (TextView) findViewById(R.id.gameValuePoints);
         imageView = (ResizableImageView) findViewById(R.id.gameImage);
         questionView = (TextView) findViewById(R.id.gameQuestion);
         radioGroup = (RadioGroup) findViewById(R.id.radiogroup);
@@ -115,6 +118,9 @@ public class GameActivity extends AppCompatActivity implements TimerListener {
 
         Epreuve epreuve = jeu.getEpreuve();
 
+        epreuveView.setText(String.valueOf(jeu.getNbEpreuves()+1));
+        pointsView.setText(String.valueOf(jeu.getPoints()));
+
         // Image
         if (epreuve.getCheminImage() != null) {
             try {
@@ -133,7 +139,6 @@ public class GameActivity extends AppCompatActivity implements TimerListener {
         for (String prop : epreuve.getPropositions()) {
             RadioButton radio = new RadioButton(this);
             radio.setText(prop);
-//            radio.setGravity();
             radioGroup.addView(radio);
         }
     }
@@ -146,11 +151,12 @@ public class GameActivity extends AppCompatActivity implements TimerListener {
         String message;
         if (bonneReponse) {
             message = "Bonne réponse !!!\n+" + jeu.getEpreuve().getPoints() + " points";
-            pointsView.setText(String.valueOf(jeu.getPoints()));
         } else {
             message = "Non... La bonne réponse était :\n" + jeu.getEpreuve().getReponse();
         }
-        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
+        Toast toast = Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT);
+        toast.setGravity(Gravity.CENTER, 0, 0);
+        toast.show();
 
         try {
             jeu.nextEpreuve();
@@ -195,8 +201,11 @@ public class GameActivity extends AppCompatActivity implements TimerListener {
         /* Timer jeu */
 
         int seconds;
-        if (jeu instanceof JeuContreMontre)
+        if (jeu instanceof JeuContreMontre) {
             seconds = ((JeuContreMontre) jeu).getGameRemainingTime();
+            if (seconds <= 10) gameTimer.setTextColor(Color.RED);
+            if (seconds == 0) gameTimer.setTextColor(Color.GRAY);
+        }
         else
             seconds = jeu.getGameTime();
 
@@ -204,8 +213,6 @@ public class GameActivity extends AppCompatActivity implements TimerListener {
         int secondes = seconds % 60;
 
         gameTimer.setText(String.format("%02d:%02d", minutes, secondes));
-        if (seconds <= 10) gameTimer.setTextColor(Color.RED);
-        if (seconds <= 1) gameTimer.setTextColor(Color.GRAY);
     }
 
     @Override
