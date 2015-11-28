@@ -10,6 +10,13 @@ public class JeuMaxPoints extends Jeu {
     }
 
     @Override
+    public void start() {
+        super.start();
+
+        startGameTimer();
+    }
+
+    @Override
     public boolean isGameFinished() {
         return points >= maxPoints;
     }

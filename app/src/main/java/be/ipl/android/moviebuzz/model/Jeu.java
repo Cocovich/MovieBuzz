@@ -34,10 +34,10 @@ public abstract class Jeu {
 
     // Points
     protected int points = 0; // points total de la partie
+    protected Timer gameTimer; // timer jeu
 
     // Durée jeu
     protected int gameTime = 0; // durée actuelle de la partie (en secondes)
-    protected Timer gameTimer; // timer jeu
 
     // Durée question
     public static final int BUZZ_TIMER = 10; // temps par question (en secondes)
@@ -98,20 +98,6 @@ public abstract class Jeu {
         if (epreuves.size() == 0)
             throw new EmptyGameException();
 
-        // Timer jeu
-        gameTimer = new Timer("Timer jeu");
-        gameTimer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                if (!isGameFinished()) {
-                    gameTime += 1;
-                    updateGameTimer();
-                }
-                else
-                    cancel();
-            }
-        }, 1000, 1000);
-
         // Timer question
         questionTimer = new CountDownTimer(BUZZ_TIMER * 1000, 1000) {
             @Override
@@ -171,6 +157,22 @@ public abstract class Jeu {
                     break;
             }
         }
+    }
+
+    protected void startGameTimer() {
+        // Timer jeu
+        gameTimer = new Timer("Timer jeu");
+        gameTimer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                if (!isGameFinished()) {
+                    gameTime += 1;
+                    updateGameTimer();
+                } else {
+                    cancel();
+                }
+            }
+        }, 1000, 1000);
     }
 
     /* Code pour màj le timer de jeu

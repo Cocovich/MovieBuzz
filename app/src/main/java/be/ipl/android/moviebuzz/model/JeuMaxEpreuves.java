@@ -7,6 +7,13 @@ public class JeuMaxEpreuves extends Jeu {
     }
 
     @Override
+    public void start() {
+        super.start();
+
+        startGameTimer();
+    }
+
+    @Override
     public boolean isGameFinished() {
         return nbEpreuves >= maxEpreuves;
     }
