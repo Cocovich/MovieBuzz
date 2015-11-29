@@ -7,10 +7,13 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.telephony.SmsManager;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -95,24 +98,41 @@ public class GameActivity extends AppCompatActivity implements TimerListener {
     private void endGame() {
 
         AlertDialog.Builder adb = new AlertDialog.Builder(this);
-        //On modifie l'icône de l'AlertDialog pour le fun ;)
-        //adb.setIcon(android.R.drawable.ic_dialog_alert);
+        //On instancie notre layout en tant que View
+        View dialog = LayoutInflater.from(this).inflate(R.layout.dialog_fin_partie, null);
+        //On affecte la vue personnalisé que l'on a crée à notre AlertDialog
+        adb.setView(dialog);
 
-        final Intent menuIntent = new Intent(this, MainActivity.class);
+        adb.setTitle("Jeu terminé");
+        final String defaultMessage = String.format("Vous avez gagné %d points.", jeu.getPoints());
+        final EditText phoneNumber = (EditText) dialog.findViewById(R.id.phoneNumberValue);
+        final EditText message = (EditText) dialog.findViewById(R.id.smsMessage);
 
-        if (jeu.isWon()) {
-            adb.setTitle("Vous avez gagné !");
-        } else {
-            adb.setTitle("Vous avez perdu :(");
-        }
-        adb.setMessage("Vous avez récolté "+jeu.getPoints()+" points.");
-        adb.setNeutralButton("Retourner au menu", new DialogInterface.OnClickListener() {
+        adb.setPositiveButton("Envoyer", new DialogInterface.OnClickListener() {
+            @Override
             public void onClick(DialogInterface dialog, int which) {
-                startActivity(menuIntent);
+                try {
+                    SmsManager smsManager = SmsManager.getDefault();
+                    smsManager.sendTextMessage(phoneNumber.getText().toString(), null, defaultMessage+" "+message.getText().toString(), null, null);
+                    retourMenu();
+                } catch (Exception e) {
+                    Toast.makeText(getApplicationContext(), "Il y a eu une erreur lors de l'envoi.", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
+        adb.setNegativeButton("Retourner au menu", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                retourMenu();
             }
         });
 
         adb.show();
+    }
+
+    private void retourMenu() {
+        Intent menuIntent = new Intent(this, MainActivity.class);
+        startActivity(menuIntent);
     }
 
     private void refresh() {

@@ -57,8 +57,6 @@ public class GameOptionsActivity extends AppCompatActivity {
         View dialog = LayoutInflater.from(this).inflate(R.layout.dialog_type_partie, null);
         //On affecte la vue personnalisé que l'on a crée à notre AlertDialog
         adb.setView(dialog);
-        //On modifie l'icône de l'AlertDialog pour le fun ;)
-        //adb.setIcon(android.R.drawable.ic_dialog_alert);
 
         value = (TextView) dialog.findViewById(R.id.gameOptionValue);
         label = (TextView) dialog.findViewById(R.id.gameOptionLabel);

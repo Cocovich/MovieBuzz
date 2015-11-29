@@ -133,10 +133,6 @@ public abstract class Jeu {
 
     public abstract boolean isGameFinished();
 
-    public boolean isWon() {
-        return true;
-    }
-
     public void addListener(TimerListener listener) {
         listeners.add(listener);
     }

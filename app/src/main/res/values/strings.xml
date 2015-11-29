@@ -29,4 +29,6 @@
 
     <string name="text_pair">Pair</string>
     <string name="text_list_devices">List of Devices</string>
+    <string name="phone_number">Numéro de téléphone</string>
+    <string name="sms_message">Message</string>
 </resources>
