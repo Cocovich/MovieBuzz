@@ -87,8 +87,8 @@ public class GameOptionsActivity extends AppCompatActivity {
     }
 
     private void constructDurationSeekBar() {
-        min = 30; // secondes
-        max = 600; // secondes
+        min = Jeu.MIN_DUREE; // secondes
+        max = Jeu.MAX_DUREE; // secondes
         step = 10; // secondes
 
         seekBar.setMax((max-min)/step);
@@ -115,8 +115,8 @@ public class GameOptionsActivity extends AppCompatActivity {
     }
 
     private void constructPointsSeekBar() {
-        min = 300; // points
-        max = 5000; // points
+        min = Jeu.MIN_POINTS; // points
+        max = Jeu.MAX_POINTS; // points
         step = 100; // points
 
         seekBar.setMax((max-min)/step);
@@ -134,12 +134,12 @@ public class GameOptionsActivity extends AppCompatActivity {
             public void onStopTrackingTouch(SeekBar seekBar) {}
         });
         // On remplit la valeur par défaut de la seekbar
-        seekBar.setProgress((Jeu.DEF_NOMBRE_POINTS-min)/step);
+        seekBar.setProgress((Jeu.DEF_POINTS -min)/step);
     }
 
     private void constructQuestionsSeekBar() {
-        min = 5; // épreuves
-        max = 30; // épreuves
+        min = Jeu.MIN_EPREUVES; // épreuves
+        max = Jeu.MAX_EPREUVES; // épreuves
         step = 1; // épreuves
 
         seekBar.setMax((max-min)/step);
@@ -157,7 +157,7 @@ public class GameOptionsActivity extends AppCompatActivity {
             public void onStopTrackingTouch(SeekBar seekBar) {}
         });
         // On remplit la valeur par défaut de la seekbar
-        seekBar.setProgress((Jeu.DEF_NOMBRE_EPREUVES-min)/step);
+        seekBar.setProgress((Jeu.DEF_EPREUVES -min)/step);
     }
 
 

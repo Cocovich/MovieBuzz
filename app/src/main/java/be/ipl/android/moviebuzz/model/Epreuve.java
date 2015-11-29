@@ -28,6 +28,7 @@ public class Epreuve implements Comparable<Epreuve> {
 
     private int duration; // temps de réponse (en millisecondes)
     private int points; // points gagnés
+    private boolean isTrue; // la réponse donnée par le joueur est-elle correcte ?
 
     public Epreuve(String question, String[] propositions, String reponse,
                    @DifficultyLevel int difficulte, String cheminImage) {
@@ -88,12 +89,19 @@ public class Epreuve implements Comparable<Epreuve> {
         return points;
     }
 
-    public boolean check(@NonNull String choice) {
-        return reponse.equals(choice);
+    public boolean isTrue() {
+        return isTrue;
     }
 
-    public int computePoints(int duration, float remainingTime) {
+    public boolean check(@NonNull String choice, int duration, float remainingTime) {
         this.duration = duration;
+        this.isTrue = reponse.equals(choice);
+        if (isTrue)
+            computePoints(remainingTime);
+        return isTrue;
+    }
+
+    private int computePoints(float remainingTime) {
         int base = difficulte * 5;
         float points = base + difficulte * 3 * remainingTime / 1000;
         this.points = Math.round(points);

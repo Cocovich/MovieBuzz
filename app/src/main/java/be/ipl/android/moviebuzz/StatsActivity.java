@@ -1,13 +1,15 @@
 package be.ipl.android.moviebuzz;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
+import android.widget.TextView;
+
+import java.util.Map;
+
+import be.ipl.android.moviebuzz.model.DAO;
 
 public class StatsActivity extends AppCompatActivity {
 
@@ -15,17 +17,41 @@ public class StatsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stats);
-        /*Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });*/
+        SharedPreferences settings = getSharedPreferences(OptionsActivity.APP_PREFS, MODE_PRIVATE);
+        String player = settings.getString(OptionsActivity.PREF_KEY_PLAYER_NAME, "");
+
+        DAO dao = new DAO(this);
+        dao.open();
+        Map<String, Integer> stats = dao.getStats(player);
+        dao.close();
+
+        TextView points = (TextView) findViewById(R.id.statsValueTotalPoints);
+        TextView duration = (TextView) findViewById(R.id.statsValueTotalTime);
+        TextView games = (TextView) findViewById(R.id.statsValueTotalGames);
+        TextView answers = (TextView) findViewById(R.id.statsValueTotalAnswers);
+        TextView answersTrue = (TextView) findViewById(R.id.statsValueTotalAnswersTrue);
+        TextView answersTrueRatio = (TextView) findViewById(R.id.statsValueRatioAnswersTrue);
+        TextView answersFalse = (TextView) findViewById(R.id.statsValueTotalAnswersFalse);
+        TextView answersFalseRatio = (TextView) findViewById(R.id.statsValueRatioAnswersFalse);
+
+        int heures = stats.get("Durée") / 3600;
+        int minutes = (stats.get("Durée") - heures * 3600) / 60;
+        int secondes = stats.get("Durée") % 60;
+
+        int ratioBonnesReponses = 100 * stats.get("Bonnes réponses") / stats.get("Réponses");
+        int ratioMauvaisesReponses = 100 * stats.get("Mauvaises réponses") / stats.get("Réponses");
+
+        points.setText(String.valueOf(stats.get("Points")));
+        duration.setText(String.format("%02d:%02d:%02d", heures, minutes, secondes));
+        games.setText(String.valueOf(stats.get("Jeux")));
+        answers.setText(String.valueOf(stats.get("Réponses")));
+        answersTrue.setText(String.valueOf(stats.get("Bonnes réponses")));
+        answersFalse.setText(String.valueOf(stats.get("Mauvaises réponses")));
+        if (stats.get("Réponses") > 0) {
+            answersTrueRatio.setText(String.format("%02d%%", ratioBonnesReponses));
+            answersFalseRatio.setText(String.format("%02d%%", ratioMauvaisesReponses));
+        }
     }
 
     @Override

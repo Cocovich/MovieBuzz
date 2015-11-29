@@ -9,19 +9,32 @@ import be.ipl.android.moviebuzz.model.ModelContract.GameDBEntry;
 
 public class GameDBHelper extends SQLiteOpenHelper {
 
-    public static final int DATABASE_VERSION = 5;
+    public static final int DATABASE_VERSION = 6;
     public static final String DATABASE_NAME = "Game.db";
 
-    private static final String SQL_CREATE_TABLE =
-        "CREATE TABLE " + GameDBEntry.TABLE_NAME  + " (" +
+    private static final String SQL_CREATE_QUESTIONS_TABLE =
+        "CREATE TABLE " + GameDBEntry.QUESTIONS_TABLE_NAME + " (" +
                 GameDBEntry._ID                       + " INTEGER PRIMARY KEY," +
-                GameDBEntry.COLUMN_NAME_QUESTION      + " TEXT," +
-                GameDBEntry.COLUMN_NAME_PROPOSITIONS  + " TEXT," +
-                GameDBEntry.COLUMN_NAME_ANSWER        + " TEXT," +
-                GameDBEntry.COLUMN_NAME_DIFFICULTY    + " INT," +
-                GameDBEntry.COLUMN_NAME_IMAGE         + " TEXT" +
+                GameDBEntry.QUESTIONS_COLUMN_NAME_QUESTION + " TEXT," +
+                GameDBEntry.QUESTIONS_COLUMN_NAME_PROPOSITIONS + " TEXT," +
+                GameDBEntry.QUESTIONS_COLUMN_NAME_ANSWER + " TEXT," +
+                GameDBEntry.QUESTIONS_COLUMN_NAME_DIFFICULTY + " INT," +
+                GameDBEntry.QUESTIONS_COLUMN_NAME_IMAGE + " TEXT" +
                 " )";
-    public static final String SQL_DELETE_ENTRIES = "DROP TABLE IF EXISTS " + GameDBEntry.TABLE_NAME;
+    public static final String SQL_DELETE_QUESTIONS_TABLE = "DROP TABLE IF EXISTS " + GameDBEntry.QUESTIONS_TABLE_NAME;
+
+    private static final String SQL_CREATE_GAMES_TABLE =
+        "CREATE TABLE " + GameDBEntry.GAMES_TABLE_NAME + " (" +
+                GameDBEntry._ID                       + " INTEGER PRIMARY KEY," +
+                GameDBEntry.GAMES_COLUMN_NAME_PLAYER + " TEXT," +
+                GameDBEntry.GAMES_COLUMN_NAME_POINTS + " INT," +
+                GameDBEntry.GAMES_COLUMN_NAME_DURATION + " INT," +
+                GameDBEntry.GAMES_COLUMN_NAME_ANSWERS_COUNT + " INT," +
+                GameDBEntry.GAMES_COLUMN_NAME_TRUE_ANSWERS_COUNT + " INT," +
+                GameDBEntry.GAMES_COLUMN_NAME_FALSE_ANSWERS_COUNT + " INT," +
+                GameDBEntry.GAMES_COLUMN_NAME_DATE + " TEXT" +
+                " )";
+    public static final String SQL_DELETE_GAMES_TABLE = "DROP TABLE IF EXISTS " + GameDBEntry.GAMES_TABLE_NAME;
 
     public GameDBHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -29,24 +42,38 @@ public class GameDBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL(SQL_CREATE_TABLE);
+        db.execSQL(SQL_CREATE_QUESTIONS_TABLE);
+        db.execSQL(SQL_CREATE_GAMES_TABLE);
         peuplement(db);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL(SQL_DELETE_ENTRIES);
+        db.execSQL(SQL_DELETE_QUESTIONS_TABLE);
+        db.execSQL(SQL_DELETE_GAMES_TABLE);
         onCreate(db);
     }
 
     private void insererEpreuve(Epreuve epreuve, SQLiteDatabase db) {
         ContentValues valeurs = new ContentValues();
-        valeurs.put(GameDBEntry.COLUMN_NAME_QUESTION, epreuve.getQuestion());
-        valeurs.put(GameDBEntry.COLUMN_NAME_PROPOSITIONS, Util.join(epreuve.getPropositions()));
-        valeurs.put(GameDBEntry.COLUMN_NAME_ANSWER, epreuve.getReponse());
-        valeurs.put(GameDBEntry.COLUMN_NAME_DIFFICULTY, epreuve.getDifficulte());
-        valeurs.put(GameDBEntry.COLUMN_NAME_IMAGE, epreuve.getCheminImage());
-        db.insert(GameDBEntry.TABLE_NAME, null, valeurs);
+        valeurs.put(GameDBEntry.QUESTIONS_COLUMN_NAME_QUESTION, epreuve.getQuestion());
+        valeurs.put(GameDBEntry.QUESTIONS_COLUMN_NAME_PROPOSITIONS, Util.join(epreuve.getPropositions()));
+        valeurs.put(GameDBEntry.QUESTIONS_COLUMN_NAME_ANSWER, epreuve.getReponse());
+        valeurs.put(GameDBEntry.QUESTIONS_COLUMN_NAME_DIFFICULTY, epreuve.getDifficulte());
+        valeurs.put(GameDBEntry.QUESTIONS_COLUMN_NAME_IMAGE, epreuve.getCheminImage());
+        db.insert(GameDBEntry.QUESTIONS_TABLE_NAME, null, valeurs);
+    }
+
+    public void sauverJeu(Jeu jeu, SQLiteDatabase db) {
+        ContentValues valeurs = new ContentValues();
+        valeurs.put(GameDBEntry.GAMES_COLUMN_NAME_PLAYER, jeu.getPlayer());
+        valeurs.put(GameDBEntry.GAMES_COLUMN_NAME_POINTS, jeu.getPoints());
+        valeurs.put(GameDBEntry.GAMES_COLUMN_NAME_DURATION, jeu.getGameTime());
+        valeurs.put(GameDBEntry.GAMES_COLUMN_NAME_ANSWERS_COUNT, jeu.getNbReponses());
+        valeurs.put(GameDBEntry.GAMES_COLUMN_NAME_TRUE_ANSWERS_COUNT, jeu.getNbBonnesReponses());
+        valeurs.put(GameDBEntry.GAMES_COLUMN_NAME_FALSE_ANSWERS_COUNT, jeu.getNbMauvaisesReponses());
+        valeurs.put(GameDBEntry.GAMES_COLUMN_NAME_DATE, "now");
+        db.insert(GameDBEntry.QUESTIONS_TABLE_NAME, null, valeurs);
     }
 
     private void peuplement(SQLiteDatabase db) {

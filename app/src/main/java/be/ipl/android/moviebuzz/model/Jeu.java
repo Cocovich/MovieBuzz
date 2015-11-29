@@ -9,28 +9,35 @@ import java.util.PriorityQueue;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import be.ipl.android.moviebuzz.events.TimerEvent;
-import be.ipl.android.moviebuzz.events.TimerListener;
+import be.ipl.android.moviebuzz.events.GameListener;
 import be.ipl.android.moviebuzz.exceptions.EmptyGameException;
-import be.ipl.android.moviebuzz.exceptions.EndOfGameException;
+import be.ipl.android.moviebuzz.exceptions.GameFinishedException;
+import be.ipl.android.moviebuzz.exceptions.GameInProgressException;
 
 public abstract class Jeu {
 
-    protected static final int TIMER_EVENT = 1;
-    protected static final int END_GAME_EVENT = 2;
-
-    public static final int DEF_NOMBRE_EPREUVES = 10; // nombre d'épreuves max par défaut
-    public static final int DEF_NOMBRE_POINTS = 1500; // nombre de points max par défaut
+    public static final int MIN_EPREUVES = 5; // nombre d'épreuves min d'un jeu
+    public static final int DEF_EPREUVES = 10; // nombre d'épreuves max par défaut
+    public static final int MAX_EPREUVES = 50; // nombre d'épreuves max d'un jeu
+    public static final int MIN_POINTS = 300; // nombre de points min d'un jeu
+    public static final int DEF_POINTS = 1500; // nombre de points max par défaut
+    public static final int MAX_POINTS = 5000; // nombre de points max d'un jeu
+    public static final int MIN_DUREE = 30; // durée min d'un jeu (en secondes)
     public static final int DEF_DUREE = 90; // durée max du jeu par défaut (en secondes)
+    public static final int MAX_DUREE = 300; // durée max d'un jeu (en secondes)
 
-    protected ArrayList<TimerListener> listeners = new ArrayList<>();
+    protected ArrayList<GameListener> listeners = new ArrayList<>();
+
+    protected DAO dao;
+
+    protected String player; // nom du joueur
 
     // Epreuves
     protected Iterator<Epreuve> iterator;
     protected PriorityQueue<Epreuve> epreuves = new PriorityQueue<>();
     protected Epreuve epreuve;
-    protected int nbEpreuves = 0; // Nombre d'épreuves passées
-    protected int maxEpreuves = 0; // Nombre d'épreuves à pré-charger ("0" signifie "tout")
+    protected int nbReponses = 0; // nombre de réponses données
+    protected int maxEpreuves = 0; // nombre d'épreuves à pré-charger ("0" signifie "tout")
 
     // Points
     protected int points = 0; // points total de la partie
@@ -43,6 +50,26 @@ public abstract class Jeu {
     public static final int BUZZ_TIMER = 10; // temps par question (en secondes)
     protected int questionRemainingTime; // temps restant question (en millisecondes)
     protected CountDownTimer questionTimer; // timer question
+
+    public Jeu(DAO dao, String player) {
+        this.dao = dao;
+        this.player = player;
+    }
+
+    public void fillGame() {
+        dao.open();
+        dao.fillGame(this);
+        dao.close();
+    }
+
+    public void saveStats() {
+        if (! isGameFinished())
+            throw new GameInProgressException();
+
+        dao.open();
+        dao.saveStats(this);
+        dao.close();
+    }
 
     public void addEpreuve(Epreuve epreuve) {
         epreuves.add(epreuve);
@@ -66,7 +93,7 @@ public abstract class Jeu {
         if (iterator.hasNext())
             epreuve = iterator.next();
         if (isGameFinished())
-            throw new EndOfGameException();
+            throw new GameFinishedException();
 
         questionTimer.start();
 
@@ -85,12 +112,30 @@ public abstract class Jeu {
         return questionRemainingTime;
     }
 
-    public int getNbEpreuves() {
-        return nbEpreuves;
+    public int getNbReponses() {
+        return nbReponses;
+    }
+
+    public int getNbBonnesReponses() {
+        int nb = 0;
+        Iterator<Epreuve> it = epreuves.iterator();
+        for (int i = 0; i < nbReponses; i++) {
+            if (it.next().isTrue())
+                nb++;
+        }
+        return nb;
+    }
+
+    public int getNbMauvaisesReponses() {
+        return getNbReponses() - getNbBonnesReponses();
     }
 
     public int getPoints() {
         return points;
+    }
+
+    public String getPlayer() {
+        return player;
     }
 
     public void start() {
@@ -103,13 +148,13 @@ public abstract class Jeu {
             @Override
             public void onTick(long millisUntilFinished) {
                 questionRemainingTime = (int) millisUntilFinished;
-                triggerEvent(TIMER_EVENT);
+                triggerEvent(GameListener.QUESTION_TIMER_EVENT);
             }
 
             @Override
             public void onFinish() {
                 questionRemainingTime = 0;
-                triggerEvent(TIMER_EVENT);
+                triggerEvent(GameListener.QUESTION_TIMER_EVENT);
             }
         }.start();
 
@@ -119,40 +164,34 @@ public abstract class Jeu {
 
     public boolean buzz(String choice) {
 
-        nbEpreuves++;
-        boolean isTrue = epreuve.check(choice);
+        int answerTime = BUZZ_TIMER*1000 - questionRemainingTime; // temps de réponse
+        boolean isTrue = epreuve.check(choice, answerTime, questionRemainingTime);
 
-        if (isTrue) {
-            // Calcul points
-            int answerTime = BUZZ_TIMER*1000 - questionRemainingTime; // temps de réponse
-            points += epreuve.computePoints(answerTime, questionRemainingTime);
-        }
+        points += epreuve.getPoints();
+        nbReponses++;
 
         return isTrue;
     }
 
-    public abstract boolean isGameFinished();
+    public boolean isGameFinished() {
+        return ! iterator.hasNext();
+    }
 
-    public void addListener(TimerListener listener) {
+    public void finish() {
+        dao.saveStats(this);
+    }
+
+    public void addListener(GameListener listener) {
         listeners.add(listener);
     }
 
-    public void removeListener(TimerListener listener) {
+    public void removeListener(GameListener listener) {
         listeners.remove(listener);
     }
 
-    public void triggerEvent(int eventType) {
-        TimerEvent event = new TimerEvent(this);
-        for (TimerListener listener : listeners) {
-            switch (eventType) {
-                case TIMER_EVENT:
-                    listener.timerChanged(event);
-                    break;
-                case END_GAME_EVENT:
-                    listener.endOfTimer(event);
-                    break;
-            }
-        }
+    public void triggerEvent(int event) {
+        for (GameListener listener : listeners)
+            listener.gameStateChanged(event);
     }
 
     protected void startGameTimer() {
@@ -182,7 +221,7 @@ public abstract class Jeu {
 
     final Runnable myRunnable = new Runnable() {
         public void run() {
-            triggerEvent(TIMER_EVENT);
+            triggerEvent(GameListener.GAME_TIMER_EVENT);
         }
     };
 }

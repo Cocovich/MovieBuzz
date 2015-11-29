@@ -2,14 +2,16 @@ package be.ipl.android.moviebuzz.model;
 
 import android.os.CountDownTimer;
 
+import be.ipl.android.moviebuzz.events.GameListener;
+
 public class JeuContreMontre extends Jeu {
 
     protected int gameMaxDuration = DEF_DUREE; // limite de temps (en secondes)
 
     protected CountDownTimer gameRemainingTimer;
 
-    public JeuContreMontre(int duration) {
-        super();
+    public JeuContreMontre(DAO dao, String player, int duration) {
+        super(dao, player);
         this.gameMaxDuration = duration;
     }
 
@@ -23,13 +25,13 @@ public class JeuContreMontre extends Jeu {
         gameRemainingTimer = new CountDownTimer(gameMaxDuration * 1000, 1000) {
             public void onTick(long millisUntilFinished) {
                 gameTime += 1;
-                triggerEvent(TIMER_EVENT);
+                triggerEvent(GameListener.GAME_TIMER_EVENT);
             }
 
             public void onFinish() {
                 gameTime = gameMaxDuration;
-                triggerEvent(TIMER_EVENT);
-                triggerEvent(END_GAME_EVENT);
+                triggerEvent(GameListener.GAME_TIMER_EVENT);
+                triggerEvent(GameListener.GAME_FINISHED_EVENT);
             }
         }.start();
     }
@@ -40,6 +42,6 @@ public class JeuContreMontre extends Jeu {
 
     @Override
     public boolean isGameFinished() {
-        return gameTime >= gameMaxDuration;
+        return super.isGameFinished() || gameTime >= gameMaxDuration;
     }
 }

@@ -2,7 +2,8 @@ package be.ipl.android.moviebuzz.model;
 
 public class JeuMaxEpreuves extends Jeu {
 
-    public JeuMaxEpreuves(int maxEpreuves) {
+    public JeuMaxEpreuves(DAO dao, String player, int maxEpreuves) {
+        super(dao, player);
         this.maxEpreuves = maxEpreuves;
     }
 
@@ -15,6 +16,6 @@ public class JeuMaxEpreuves extends Jeu {
 
     @Override
     public boolean isGameFinished() {
-        return nbEpreuves >= maxEpreuves;
+        return super.isGameFinished() || nbReponses >= maxEpreuves;
     }
 }

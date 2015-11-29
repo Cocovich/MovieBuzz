@@ -7,79 +7,120 @@
     tools:context=".GameOptionsActivity">
 
 
-    <Button
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="MAX POINTS"
-        android:id="@+id/buttonMaxPoint"
-        android:background="@android:color/holo_orange_light"
-        android:clickable="true"
-        android:minWidth="350dp"
-        android:height="100dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true">
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="POINTS"
+            android:id="@+id/buttonMaxPoint"
+            android:background="@android:color/holo_orange_light"
+            android:clickable="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:onClick="onClickMaxPoint"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:height="100dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="@string/game_type_points"
+            android:id="@+id/infoGamePoints"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@+id/buttonMaxPoint"
+            android:layout_alignParentRight="true" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentStart="true"
-        android:onClick="onClickMaxPoint" />
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="MAX EPREUVES"
-        android:id="@+id/buttonMaxEpreuve"
-        android:background="@android:color/holo_orange_light"
-        android:clickable="true"
-        android:minWidth="350dp"
-        android:layout_below="@+id/textView"
-        android:layout_marginTop="27dp"
-        android:layout_alignLeft="@+id/buttonMaxPoint"
-        android:layout_alignStart="@+id/buttonMaxPoint"
-        android:height="100dp"
-        android:onClick="onClickMaxEpreuve" />
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="ÉPREUVES"
+            android:id="@+id/buttonMaxEpreuve"
+            android:background="@android:color/holo_orange_light"
+            android:clickable="true"
+            android:height="100dp"
+            android:onClick="onClickMaxEpreuve"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="CONTRE LA MONTRE"
-        android:id="@+id/buttonContreMontre"
-        android:background="@android:color/holo_orange_light"
-        android:clickable="true"
-        android:minWidth="350dp"
-        android:layout_below="@+id/textView2"
-        android:layout_alignLeft="@+id/buttonMaxEpreuve"
-        android:layout_alignStart="@+id/buttonMaxEpreuve"
-        android:layout_marginTop="27dp"
-        android:height="100dp"
-        android:contextClickable="true"
-        android:onClick="onClickContreMontre" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:id="@+id/infoGameQuestions"
+            android:layout_below="@+id/buttonMaxEpreuve"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            android:text="@string/game_type_questions" />
+    </LinearLayout>
 
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Celui qui a le plus de points apres autant d&apos;epreuve points gagne "
-        android:id="@+id/textView2"
-        android:layout_below="@+id/buttonMaxEpreuve"
-        android:layout_centerHorizontal="true"
-        android:maxWidth="250dp" />
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Le premier qui atteint ce nombre de points gagne"
-        android:id="@+id/textView"
-        android:layout_below="@+id/buttonMaxPoint"
-        android:layout_centerHorizontal="true"
-        android:maxWidth="250dp" />
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="CONTRE LA MONTRE"
+            android:id="@+id/buttonContreMontre"
+            android:background="@android:color/holo_orange_light"
+            android:clickable="true"
+            android:height="100dp"
+            android:contextClickable="false"
+            android:onClick="onClickContreMontre"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="false"
+            android:layout_above="@+id/infoGameDuration" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Celui qui a le plus de points a la fin du compte a rebourd gagne"
-        android:id="@+id/textView3"
-        android:layout_below="@+id/buttonContreMontre"
-        android:layout_centerHorizontal="true"
-        android:maxWidth="250dp" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="@string/game_type_duration"
+            android:id="@+id/infoGameDuration"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true" />
+    </LinearLayout>
 
 </RelativeLayout>

@@ -2,10 +2,10 @@ package be.ipl.android.moviebuzz.model;
 
 public class JeuMaxPoints extends Jeu {
 
-    protected int maxPoints = DEF_NOMBRE_POINTS; // limite de points
+    protected int maxPoints = DEF_POINTS; // limite de points
 
-    public JeuMaxPoints(int maxPoints) {
-        super();
+    public JeuMaxPoints(DAO dao, String player, int maxPoints) {
+        super(dao, player);
         this.maxPoints = maxPoints;
     }
 
@@ -18,6 +18,6 @@ public class JeuMaxPoints extends Jeu {
 
     @Override
     public boolean isGameFinished() {
-        return points >= maxPoints;
+        return super.isGameFinished() || points >= maxPoints;
     }
 }

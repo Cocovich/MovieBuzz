@@ -2,6 +2,7 @@ package be.ipl.android.moviebuzz;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -26,9 +27,8 @@ import android.widget.Toast;
 import java.io.IOException;
 import java.io.InputStream;
 
-import be.ipl.android.moviebuzz.events.TimerEvent;
-import be.ipl.android.moviebuzz.events.TimerListener;
-import be.ipl.android.moviebuzz.exceptions.EndOfGameException;
+import be.ipl.android.moviebuzz.events.GameListener;
+import be.ipl.android.moviebuzz.exceptions.GameFinishedException;
 import be.ipl.android.moviebuzz.model.DAO;
 import be.ipl.android.moviebuzz.model.Epreuve;
 import be.ipl.android.moviebuzz.model.Jeu;
@@ -36,13 +36,12 @@ import be.ipl.android.moviebuzz.model.JeuContreMontre;
 import be.ipl.android.moviebuzz.model.JeuMaxEpreuves;
 import be.ipl.android.moviebuzz.model.JeuMaxPoints;
 
-public class GameActivity extends AppCompatActivity implements TimerListener {
+public class GameActivity extends AppCompatActivity implements GameListener {
 
     public static final String PARAM_JEU_DUREE = "PARAM_JEU_DUREE";
     public static final String PARAM_JEU_EPREUVES = "PARAM_JEU_EPREUVES";
     public static final String PARAM_JEU_POINTS = "PARAM_JEU_POINTS";
     static final int PICK_CONTACT_REQUEST = 1;  // The request code
-
 
     private Jeu jeu;
 
@@ -66,23 +65,22 @@ public class GameActivity extends AppCompatActivity implements TimerListener {
         int epreuvesMax = intent.getIntExtra(PARAM_JEU_EPREUVES, 0);
         int pointsMax = intent.getIntExtra(PARAM_JEU_POINTS, 0);
 
+        DAO dao = new DAO(this);
+        SharedPreferences settings = getSharedPreferences(OptionsActivity.APP_PREFS, MODE_PRIVATE);
+        String player = settings.getString(OptionsActivity.PREF_KEY_PLAYER_NAME, null);
+
         // On crée le jeu selon son type
         if (dureeMax != 0)
-            jeu = new JeuContreMontre(dureeMax);
+            jeu = new JeuContreMontre(dao, player, dureeMax);
         else if (epreuvesMax != 0)
-            jeu = new JeuMaxEpreuves(epreuvesMax);
+            jeu = new JeuMaxEpreuves(dao, player, epreuvesMax);
         else if (pointsMax != 0)
-            jeu = new JeuMaxPoints(pointsMax);
+            jeu = new JeuMaxPoints(dao, player, pointsMax);
         else
             throw new RuntimeException("Pas de type d'épreuve sélectionnée");
 
+        jeu.fillGame(); // Remplit le jeu avec des questions
         jeu.addListener(this);
-
-        // On remplit le jeu avec les épreuves sorties de la BDD
-        DAO dao = new DAO(this);
-        dao.open();
-        dao.fillGame(jeu);
-        dao.close();
 
         // On cherche les vues à contenu dynamique seulement une fois
         epreuveView = (TextView) findViewById(R.id.gameValueEpreuve);
@@ -111,9 +109,12 @@ public class GameActivity extends AppCompatActivity implements TimerListener {
         adb.setTitle("Jeu terminé");
         adb.setView(dialog);
 
-        final EditText playerName = (EditText) dialog.findViewById(R.id.playerName);
+        final EditText playerName = (EditText) dialog.findViewById(R.id.optionsLabelPlayerName);
         phoneNumber = (EditText) dialog.findViewById(R.id.phoneNumber);
         final EditText message = (EditText) dialog.findViewById(R.id.smsMessage);
+
+        if (jeu.getPlayer() != null)
+            playerName.setText(jeu.getPlayer());
 
         adb.setPositiveButton("Envoyer", new DialogInterface.OnClickListener() {
             @Override
@@ -147,7 +148,7 @@ public class GameActivity extends AppCompatActivity implements TimerListener {
 
         Epreuve epreuve = jeu.getEpreuve();
 
-        epreuveView.setText(String.valueOf(jeu.getNbEpreuves() + 1));
+        epreuveView.setText(String.valueOf(jeu.getNbReponses() + 1));
         pointsView.setText(String.valueOf(jeu.getPoints()));
 
         // Image
@@ -192,7 +193,8 @@ public class GameActivity extends AppCompatActivity implements TimerListener {
         try {
             jeu.nextEpreuve();
             refresh();
-        } catch (EndOfGameException e) {
+        } catch (GameFinishedException e) {
+            jeu.finish();
             endGame();
         }
     }
@@ -220,37 +222,51 @@ public class GameActivity extends AppCompatActivity implements TimerListener {
     }
 
     @Override
-    public void timerChanged(TimerEvent event) {
-        /* Timer question */
+    public void gameStateChanged(int event) {
+        switch (event) {
+            /* Timer question */
+            case GAME_TIMER_EVENT:
 
-        int milliseconds = jeu.getQuestionRemainingTime();
+                int milliseconds = jeu.getQuestionRemainingTime();
 
-        questionTimer.setText(String.valueOf(milliseconds / 1000));
-        if (milliseconds < 5000) questionTimer.setTextColor(Color.RED);
-        if (milliseconds <= 1000) questionTimer.setTextColor(Color.GRAY);
+                questionTimer.setText(String.valueOf(milliseconds / 1000));
+                if (milliseconds < 5000) questionTimer.setTextColor(Color.RED);
+                if (milliseconds <= 1000) questionTimer.setTextColor(Color.GRAY);
 
-        /* Timer jeu */
+                break;
 
-        int seconds;
-        if (jeu instanceof JeuContreMontre) {
-            seconds = ((JeuContreMontre) jeu).getGameRemainingTime();
-            if (seconds <= 10) gameTimer.setTextColor(Color.RED);
-            if (seconds == 0) gameTimer.setTextColor(Color.GRAY);
-        } else
-            seconds = jeu.getGameTime();
+            /* Timer jeu */
+            case QUESTION_TIMER_EVENT:
 
-        int minutes = seconds / 60;
-        int secondes = seconds % 60;
+                int seconds;
+                if (jeu instanceof JeuContreMontre) {
+                    seconds = ((JeuContreMontre) jeu).getGameRemainingTime();
+                    if (seconds <= 10) gameTimer.setTextColor(Color.RED);
+                    if (seconds == 0) gameTimer.setTextColor(Color.GRAY);
+                }
+                else
+                    seconds = jeu.getGameTime();
 
-        gameTimer.setText(String.format("%02d:%02d", minutes, secondes));
+                int minutes = seconds / 60;
+                int secondes = seconds % 60;
+
+                gameTimer.setText(String.format("%02d:%02d", minutes, secondes));
+
+                break;
+
+            /* Jeu fini */
+            case GAME_FINISHED_EVENT:
+                jeu.finish();
+                endGame();
+                break;
+        }
     }
 
-    @Override
-    public void endOfTimer(TimerEvent event) {
-        endGame();
-    }
+    /*
+    * SOURCE pour chercher les contacts
+    * http://developer.android.com/training/basics/intents/result.html
+    */
 
-    //SOURCE pour chercher les contactes : http://developer.android.com/training/basics/intents/result.html
     public void pickContact(View view) {
         Intent pickContactIntent = new Intent(Intent.ACTION_PICK, Uri.parse("content://contacts"));
         pickContactIntent.setType(ContactsContract.CommonDataKinds.Phone.CONTENT_TYPE); // Show user only contacts w/ phone numbers
@@ -273,19 +289,18 @@ public class GameActivity extends AppCompatActivity implements TimerListener {
                 // CAUTION: The query() method should be called from a separate thread to avoid blocking
                 // your app's UI thread. (For simplicity of the sample, this code doesn't do that.)
                 // Consider using CursorLoader to perform the query.
-                Cursor cursor = getContentResolver()
-                        .query(contactUri, projection, null, null, null);
+                Cursor cursor = getContentResolver().query(contactUri, projection, null, null, null);
+
+                if (cursor == null)
+                    return;
+
                 cursor.moveToFirst();
 
                 // Retrieve the phone number from the NUMBER column
                 int column = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);
-                String number = cursor.getString(column);
+                phoneNumber.setText(cursor.getString(column));
 
-
-                // Do something with the phone number...
-
-                Toast.makeText(getApplicationContext(), "" + number, Toast.LENGTH_LONG).show();
-                phoneNumber.setText(number);
+                cursor.close();
             }
         }
     }

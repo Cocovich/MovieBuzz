@@ -10,32 +10,40 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar" >
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".GameOptionsActivity"
             android:label="@string/title_game_options_activity"
-            android:parentActivityName=".MainActivity" >
+            android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="be.ipl.android.moviebuzz.MainActivity" />
         </activity>
         <activity
             android:name=".GameActivity"
-            android:label="@string/title_game_activity">
-        </activity>
+            android:label="@string/title_game_activity"></activity>
         <activity
             android:name=".StatsActivity"
             android:label="@string/title_activity_stats"
             android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="be.ipl.android.moviebuzz.MainActivity" />
+        </activity>
+        <activity
+            android:name=".OptionsActivity"
+            android:label="@string/title_activity_options"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="be.ipl.android.moviebuzz.MainActivity" />

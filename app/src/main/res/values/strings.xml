@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">MovieBuzz</string>
-    <string name="action_settings">Settings</string>
+    <string name="action_settings">Options</string>
+    <string name="title_activity_options">Options</string>
     <string name="title_game_options_activity">Type de jeu</string>
     <string name="title_game_activity">Quizz</string>
 
@@ -8,6 +9,10 @@
     <string name="new_game">Nouvelle partie</string>
     <string name="stats">Statistiques</string>
     <string name="options">Options</string>
+
+    <!-- Options -->
+    <string name="options_player_name">Nom du joueur</string>
+    <string name="options_save">Sauver</string>
 
     <!-- Game -->
     <string name="game_epreuves">Épreuve</string>
@@ -22,6 +27,9 @@
 
     <!-- Game options -->
     <string name="game_options_title">Paramètres de la partie</string>
+    <string name="game_type_points">Le jeu est fini lorsque le joueur atteint un certain nombre de points</string>
+    <string name="game_type_questions">Le jeu est fini lorsque le joueur atteint un certain nombre d\'épreuves</string>
+    <string name="game_type_duration">Le jeu est fini lorsque le temps est écoulé</string>
     <string name="options_duration">Durée maximale</string>
     <string name="options_points">Points maximum</string>
     <string name="options_questions">Maximum épreuves</string>
@@ -32,6 +40,4 @@
     <string name="stats_total_points">Points cumulés</string>
     <string name="buzzer_description">Buzzer</string>
 
-    <string name="text_pair">Pair</string>
-    <string name="text_list_devices">List of Devices</string>
 </resources>
