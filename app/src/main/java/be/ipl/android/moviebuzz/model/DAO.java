@@ -89,4 +89,32 @@ public class DAO {
 
         return stats;
     }
+
+    public Map<String, Integer> getLastGameStats(String player) {
+
+        Cursor cursor = sqLiteDatabase.query(
+                ModelContract.GameDBEntry.GAMES_TABLE_NAME,
+                new String[]{
+                        "SUM("+ModelContract.GameDBEntry.GAMES_COLUMN_NAME_POINTS+")",
+                        "SUM("+ModelContract.GameDBEntry.GAMES_COLUMN_NAME_DURATION+")",
+                        "SUM("+ModelContract.GameDBEntry.GAMES_COLUMN_NAME_ANSWERS_COUNT+")",
+                },
+                ModelContract.GameDBEntry.GAMES_COLUMN_NAME_PLAYER+" = ?",
+                new String[]{player},
+                null, null,
+                ModelContract.GameDBEntry.GAMES_COLUMN_NAME_DATE+ "DESC",
+                "1");
+
+        if (!cursor.moveToFirst())
+            return null;
+
+        Map<String, Integer> stats = new HashMap<>(6);
+        stats.put("Points", cursor.getInt(0));
+        stats.put("Durée", cursor.getInt(1));
+        stats.put("Réponses", cursor.getInt(2));
+
+        cursor.close();
+
+        return stats;
+    }
 }

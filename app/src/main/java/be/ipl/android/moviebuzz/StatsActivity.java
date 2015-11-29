@@ -24,8 +24,10 @@ public class StatsActivity extends AppCompatActivity {
         DAO dao = new DAO(this);
         dao.open();
         Map<String, Integer> stats = dao.getStats(player);
+        Map<String, Integer> lastGameStats = dao.getLastGameStats(player);
         dao.close();
 
+        // Statistiques globales
         TextView points = (TextView) findViewById(R.id.statsValueTotalPoints);
         TextView duration = (TextView) findViewById(R.id.statsValueTotalTime);
         TextView games = (TextView) findViewById(R.id.statsValueTotalGames);
@@ -52,6 +54,15 @@ public class StatsActivity extends AppCompatActivity {
             answersTrueRatio.setText(String.format("%02d%%", ratioBonnesReponses));
             answersFalseRatio.setText(String.format("%02d%%", ratioMauvaisesReponses));
         }
+
+        // Dernière partie
+        TextView lastGamePoints = (TextView) findViewById(R.id.statsValueLastGamePoints);
+        TextView lastGameDuration = (TextView) findViewById(R.id.statsValueLastGameTime);
+        TextView lastGameAnswers = (TextView) findViewById(R.id.statsValueLastGameQuestions);
+
+        lastGamePoints.setText(String.valueOf(lastGameStats.get("Points")));
+        lastGameDuration.setText(String.format("%02d:%02d", lastGameStats.get("Durée") / 60, lastGameStats.get("Durée") % 60));
+        lastGameAnswers.setText(String.valueOf(lastGameStats.get("Réponses")));
     }
 
     @Override

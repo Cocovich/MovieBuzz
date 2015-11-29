@@ -52,6 +52,7 @@
         android:text="@string/options"
         android:clickable="true"
         android:background="@android:color/holo_orange_light"
-        android:layout_marginTop="6dp" />
+        android:layout_marginTop="6dp"
+        android:onClick="goToOptions" />
 
 </RelativeLayout>

@@ -50,4 +50,9 @@ public class MainActivity extends AppCompatActivity {
         Intent statsIntent = new Intent(this, StatsActivity.class);
         startActivity(statsIntent);
     }
+
+    public void goToOptions(View view) {
+        Intent optionsIntent = new Intent(this, OptionsActivity.class);
+        startActivity(optionsIntent);
+    }
 }
