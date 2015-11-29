@@ -27,6 +27,9 @@ import java.util.UUID;
 
 import be.ipl.android.moviebuzz.model.Jeu;
 
+//http://sberfini.developpez.com/tutoriaux/android/bluetooth
+//http://developer.android.com/guide/topics/connectivity/bluetooth.html
+
 public class GameOptionsActivity extends AppCompatActivity {
 
     private AlertDialog.Builder adb;
@@ -59,9 +62,8 @@ public class GameOptionsActivity extends AppCompatActivity {
     //on linstancie slmnt si clic sur trouverchallenger
     private ServeurBluetooth serveurBluetooth;
     // a lancer de tte facon
-    private  ClientBluetooth clientBluetooth;
-
-
+    private ClientBluetooth clientBluetooth;
+    private static int DISCOVERY_REQUEST = 1;
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,11 +75,10 @@ public class GameOptionsActivity extends AppCompatActivity {
 
     @Override
     protected void onStart() {
+        super.onStart();
         this.verificationBluetooth();
         // on lance le serveur dans tt les cas pour si on recoit une invitation
-        serveurBluetooth= new ServeurBluetooth();
-        serveurBluetooth.start();
-        super.onStart();
+        serveurBluetooth = new ServeurBluetooth();
     }
 
     public void onClickContreMontre(View view) {
@@ -240,8 +241,9 @@ public class GameOptionsActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void verificationBluetooth(){
-        bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+    public void verificationBluetooth() {
+        if (bluetoothAdapter == null)
+            bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         String message;
 
         if (bluetoothAdapter == null) {
@@ -249,34 +251,34 @@ public class GameOptionsActivity extends AppCompatActivity {
         } else {
             message = "Ok vous vous posssedez le bluetooth";
         }
-        //si son bluetooth n'est pas activer je lactive direct sans demander permission
+        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+
+        //si son bluetooth n'est pas activer je demande permission de lactiver
         if (!bluetoothAdapter.isEnabled()) {
-            bluetoothAdapter.enable();
+            Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+            startActivityForResult(enableBtIntent, REQUEST_CODE_ENABLE_BLUETOOTH);
         }
-        //rendre mon peripherique visible
-        Intent discoverableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
-        discoverableIntent.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 300);
-        startActivity(discoverableIntent);
-        // affichage de tt peripherik bluetooth kon connait... DEBBUG
-        devices = bluetoothAdapter.getBondedDevices();
-        for (BluetoothDevice blueDevice : devices) {
-            Toast.makeText(getApplicationContext(), "Device = " + blueDevice.getName(), Toast.LENGTH_SHORT).show();
-        }
-        //recherche des peripherique inconnu
-        bluetoothAdapter.startDiscovery();
+
     }
 
+
     public void findChallenger() {
+        //retest bluetooth
+        if (!bluetoothAdapter.isEnabled())
+            verificationBluetooth();
         // affichage de tt peripherik bluetooth kon connait... DEBBUG
         devices = bluetoothAdapter.getBondedDevices();
         for (BluetoothDevice blueDevice : devices) {
             Toast.makeText(getApplicationContext(), "Device = " + blueDevice.getName(), Toast.LENGTH_SHORT).show();
         }
         //recherche des peripherique inconnu
+        if (bluetoothAdapter.isDiscovering()) {
+            bluetoothAdapter.cancelDiscovery();
+        }
         bluetoothAdapter.startDiscovery();
-        //une fois que jai choisi le bon je dois initialiser mon client et me connecter
-       //COCO
-       // clientBluetooth=new ClientBluetooth();
+       //une fois que jai choisi le bon je dois initialiser mon client et me connecter
+        //COCO
+        // clientBluetooth=new ClientBluetooth();
 
     }
 
@@ -290,13 +292,33 @@ public class GameOptionsActivity extends AppCompatActivity {
             return;
         // si il a dit oui
         if (resultCode == RESULT_OK) {
-            toast = Toast.makeText(getApplicationContext(), "bluetooth ACTIVER", Toast.LENGTH_SHORT);
+            toast = Toast.makeText(getApplicationContext(), "bluetooth ACTIVER", Toast.LENGTH_LONG);
             toast.setGravity(Gravity.CENTER, 0, 0);
             toast.show();
+            rendreVisibleEnBluetooth();
+
         } else {
             toast = Toast.makeText(getApplicationContext(), "bluetooth NON activer", Toast.LENGTH_SHORT);
             toast.setGravity(Gravity.CENTER, 0, 0);
             toast.show();
+        }
+    }
+    public  void rendreVisibleEnBluetooth(){
+        if (bluetoothAdapter.isEnabled()) {
+            //une fois le bluetooth activer alor on peut demarer le serveur
+            // if (!serveurBluetooth.getState().equals(BluetoothAdapter.STATE_OFF) && !serveurBluetooth.getState().equals(BluetoothAdapter.STATE_TURNING_OFF))
+            //   serveurBluetooth.start();
+            //rendre mon peripherique visible
+            Toast.makeText(getApplicationContext(), "rendre visible", Toast.LENGTH_SHORT).show();
+            Intent discoverableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
+            discoverableIntent.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 300);
+            startActivity(discoverableIntent);
+            // affichage de tt peripherik bluetooth kon connait... DEBBUG
+            devices = bluetoothAdapter.getBondedDevices();
+            for (BluetoothDevice blueDevice : devices) {
+                Toast.makeText(getApplicationContext(), "Device = " + blueDevice.getName(), Toast.LENGTH_SHORT).show();
+            }
+
         }
     }
 
@@ -305,6 +327,7 @@ public class GameOptionsActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         bluetoothAdapter.cancelDiscovery();
+        bluetoothAdapter.disable();
         unregisterReceiver(bluetoothReceiver);
     }
 
@@ -312,13 +335,15 @@ public class GameOptionsActivity extends AppCompatActivity {
     // un serveur est lance des le debut de lactivity
     private class ServeurBluetooth extends Thread {
         private final BluetoothServerSocket blueServerSocket;
+
         public ServeurBluetooth() {
             // On utilise un objet temporaire qui sera assigné plus tard à blueServerSocket car blueServerSocket est "final"
             BluetoothServerSocket tmp = null;
             try {
                 // MON_UUID est l'UUID (comprenez identifiant serveur) de l'application. Cette valeur est nécessaire côté client également !
                 tmp = bluetoothAdapter.listenUsingRfcommWithServiceRecord(NAME_INSECURE, MY_UUID_INSECURE);
-            } catch (IOException e) { }
+            } catch (IOException e) {
+            }
             blueServerSocket = tmp;
         }
 
@@ -345,13 +370,16 @@ public class GameOptionsActivity extends AppCompatActivity {
                 }
             }
         }
+
         // On stoppe l'écoute des connexions et on tue le thread
         public void cancel() {
             try {
                 blueServerSocket.close();
-            } catch (IOException e) { }
+            } catch (IOException e) {
+            }
         }
     }
+
     // le client est lancer seulement kan on click sur trouver challenger
     private class ClientBluetooth extends Thread {
         private final BluetoothSocket blueSocket;
@@ -366,7 +394,8 @@ public class GameOptionsActivity extends AppCompatActivity {
             try {
                 // MON_UUID est l'UUID (comprenez identifiant serveur) de l'application. Cette valeur est nécessaire côté serveur également !
                 tmp = device.createRfcommSocketToServiceRecord(MY_UUID_INSECURE);
-            } catch (IOException e) { }
+            } catch (IOException e) {
+            }
             blueSocket = tmp;
         }
 
@@ -381,7 +410,8 @@ public class GameOptionsActivity extends AppCompatActivity {
                 // Impossible de se connecter, on ferme la socket et on tue le thread
                 try {
                     blueSocket.close();
-                } catch (IOException closeException) { }
+                } catch (IOException closeException) {
+                }
                 return;
             }
 
@@ -394,7 +424,8 @@ public class GameOptionsActivity extends AppCompatActivity {
         public void cancel() {
             try {
                 blueSocket.close();
-            } catch (IOException e) { }
+            } catch (IOException e) {
+            }
         }
     }
 
