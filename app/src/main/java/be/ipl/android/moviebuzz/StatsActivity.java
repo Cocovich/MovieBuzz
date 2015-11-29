@@ -41,8 +41,11 @@ public class StatsActivity extends AppCompatActivity {
         int minutes = (stats.get("Durée") - heures * 3600) / 60;
         int secondes = stats.get("Durée") % 60;
 
-        int ratioBonnesReponses = 100 * stats.get("Bonnes réponses") / stats.get("Réponses");
-        int ratioMauvaisesReponses = 100 * stats.get("Mauvaises réponses") / stats.get("Réponses");
+        int ratioBonnesReponses = 0, ratioMauvaisesReponses = 0;
+        if (stats.get("Réponses") > 0) {
+            ratioBonnesReponses = 100 * stats.get("Bonnes réponses") / stats.get("Réponses");
+            ratioMauvaisesReponses = 100 * stats.get("Mauvaises réponses") / stats.get("Réponses");
+        }
 
         points.setText(String.valueOf(stats.get("Points")));
         duration.setText(String.format("%02d:%02d:%02d", heures, minutes, secondes));
