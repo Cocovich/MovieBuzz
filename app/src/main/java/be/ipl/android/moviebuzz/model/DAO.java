@@ -102,13 +102,13 @@ public class DAO {
                 ModelContract.GameDBEntry.GAMES_COLUMN_NAME_PLAYER+" = ?",
                 new String[]{player},
                 null, null,
-                ModelContract.GameDBEntry.GAMES_COLUMN_NAME_DATE+ "DESC",
+                ModelContract.GameDBEntry.GAMES_COLUMN_NAME_DATE+" DESC",
                 "1");
 
         if (!cursor.moveToFirst())
             return null;
 
-        Map<String, Integer> stats = new HashMap<>(6);
+        Map<String, Integer> stats = new HashMap<>(3);
         stats.put("Points", cursor.getInt(0));
         stats.put("Durée", cursor.getInt(1));
         stats.put("Réponses", cursor.getInt(2));

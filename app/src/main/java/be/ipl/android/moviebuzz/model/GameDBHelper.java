@@ -88,7 +88,7 @@ public class GameDBHelper extends SQLiteOpenHelper {
 
         insererEpreuve(new Epreuve(
                 "Comment se nomme ce film ?",
-                new String[]{"Bad Guys", "Bad Cops", "Bad Boys", "Good cops"},
+                new String[]{"Bad Guys", "Bad Cops", "Bad Boys", "Bad Bitches"},
                 "Bad Boys",
                 Epreuve.NIVEAU_MOYEN,
                 "bad-boys-ii.jpg"
@@ -154,7 +154,7 @@ public class GameDBHelper extends SQLiteOpenHelper {
         insererEpreuve(new Epreuve(
                 "Qui est cet homme?",
                 new String[]{"Pablo Escobar", "Dieu le père", "Don Corléone", "Fidel Castro"},
-                "Don Corleone",
+                "Don Corléone",
                 Epreuve.NIVEAU_DIFFICILE,
                 "parrain-don-corleone.jpg"
         ), db);
@@ -168,7 +168,7 @@ public class GameDBHelper extends SQLiteOpenHelper {
         insererEpreuve(new Epreuve(
                 "Que mangent les Avengers",
                 new String[]{"un shawarma", "un MacDonald", "un calamar", "un omar"},
-                "",
+                "un shawarma",
                 Epreuve.NIVEAU_DIFFICILE,
                 "shawarma.jpg"
         ), db);
@@ -244,8 +244,8 @@ public class GameDBHelper extends SQLiteOpenHelper {
         ), db);
         insererEpreuve(new Epreuve(
                 "Cafard à l'entrée...",
-                new String[]{"et bouillie a la sortie", "et bouillie a la fin", "et bouillie au final", "et bouillie comme principale"},
-                "et bouillie a la sortie",
+                new String[]{"et bouillie à la sortie", "et bouillie à la fin", "et bouillie au final", "et bouillie comme principale"},
+                "et bouillie à la sortie",
                 Epreuve.NIVEAU_DIFFICILE,
                 "mib-cafard.jpg"
         ), db);
@@ -406,7 +406,7 @@ public class GameDBHelper extends SQLiteOpenHelper {
         ), db);
         insererEpreuve(new Epreuve(
                 "Comment est surnommé Max?",
-                new String[]{"poche de sang", "le prisionner", "le déserteur", "mad max"},
+                new String[]{"poche de sang", "le prisonnier", "le déserteur", "mad max"},
                 "poche de sang",
                 Epreuve.NIVEAU_DIFFICILE,
                 ""
