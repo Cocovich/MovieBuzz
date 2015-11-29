@@ -26,11 +26,8 @@ public class DAO {
     }
 
     public void fillGame(Jeu jeu) {
-        String query = "SELECT * FROM "+ModelContract.GameDBEntry.TABLE_NAME+" ORDER BY RANDOM()";
-        if (jeu.getMaxEpreuves() > 0)
-            query += " LIMIT "+String.valueOf(jeu.getMaxEpreuves());
+        Cursor cursor = sqLiteDatabase.query(ModelContract.GameDBEntry.TABLE_NAME, null, null,  null, null, null, "RANDOM()", ""+jeu.getMaxEpreuves());
 
-        Cursor cursor = sqLiteDatabase.rawQuery(query, null);
 
         while (cursor.moveToNext()) {
             int id = cursor.getInt(0);

@@ -2,9 +2,12 @@ package be.ipl.android.moviebuzz;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.telephony.SmsManager;
@@ -38,9 +41,13 @@ public class GameActivity extends AppCompatActivity implements TimerListener {
     public static final String PARAM_JEU_DUREE = "PARAM_JEU_DUREE";
     public static final String PARAM_JEU_EPREUVES = "PARAM_JEU_EPREUVES";
     public static final String PARAM_JEU_POINTS = "PARAM_JEU_POINTS";
+    static final int PICK_CONTACT_REQUEST = 1;  // The request code
+
+
 
     private Jeu jeu;
 
+    private EditText phoneNumber;
     private TextView epreuveView;
     private TextView pointsView;
     private TextView gameTimer;
@@ -95,6 +102,7 @@ public class GameActivity extends AppCompatActivity implements TimerListener {
         refresh();
     }
 
+    //pour le sms : http://javatechig.com/android/sending-sms-message-in-android
     private void endGame() {
 
         AlertDialog.Builder adb = new AlertDialog.Builder(this);
@@ -105,7 +113,7 @@ public class GameActivity extends AppCompatActivity implements TimerListener {
         adb.setView(dialog);
 
         final EditText playerName = (EditText) dialog.findViewById(R.id.playerName);
-        final EditText phoneNumber = (EditText) dialog.findViewById(R.id.phoneNumber);
+        phoneNumber = (EditText) dialog.findViewById(R.id.phoneNumber);
         final EditText message = (EditText) dialog.findViewById(R.id.smsMessage);
 
         adb.setPositiveButton("Envoyer", new DialogInterface.OnClickListener() {
@@ -168,6 +176,7 @@ public class GameActivity extends AppCompatActivity implements TimerListener {
     public void buzz(View view) {
 
         RadioButton checked = (RadioButton) findViewById(radioGroup.getCheckedRadioButtonId());
+        if(checked==null)return;
         boolean bonneReponse = jeu.buzz(checked.getText().toString());
 
         String message;
@@ -240,5 +249,43 @@ public class GameActivity extends AppCompatActivity implements TimerListener {
     @Override
     public void endOfTimer(TimerEvent event) {
         endGame();
+    }
+    //SOURCE pour chercher les contactes : http://developer.android.com/training/basics/intents/result.html
+    public void pickContact(View view) {
+        Intent pickContactIntent = new Intent(Intent.ACTION_PICK, Uri.parse("content://contacts"));
+        pickContactIntent.setType(ContactsContract.CommonDataKinds.Phone.CONTENT_TYPE); // Show user only contacts w/ phone numbers
+        startActivityForResult(pickContactIntent, PICK_CONTACT_REQUEST);
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // Check which request it is that we're responding to
+        if (requestCode == PICK_CONTACT_REQUEST) {
+            // Make sure the request was successful
+            if (resultCode == RESULT_OK) {
+                // Get the URI that points to the selected contact
+                Uri contactUri = data.getData();
+                // We only need the NUMBER column, because there will be only one row in the result
+                String[] projection = {ContactsContract.CommonDataKinds.Phone.NUMBER};
+
+                // Perform the query on the contact to get the NUMBER column
+                // We don't need a selection or sort order (there's only one result for the given URI)
+                // CAUTION: The query() method should be called from a separate thread to avoid blocking
+                // your app's UI thread. (For simplicity of the sample, this code doesn't do that.)
+                // Consider using CursorLoader to perform the query.
+                Cursor cursor = getContentResolver()
+                        .query(contactUri, projection, null, null, null);
+                cursor.moveToFirst();
+
+                // Retrieve the phone number from the NUMBER column
+                int column = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);
+                String number = cursor.getString(column);
+
+
+                // Do something with the phone number...
+
+                Toast.makeText(getApplicationContext(),""+number,Toast.LENGTH_LONG).show();
+                phoneNumber.setText(number);
+            }
+        }
     }
 }
