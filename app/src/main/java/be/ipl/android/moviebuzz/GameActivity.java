@@ -44,7 +44,6 @@ public class GameActivity extends AppCompatActivity implements TimerListener {
     static final int PICK_CONTACT_REQUEST = 1;  // The request code
 
 
-
     private Jeu jeu;
 
     private EditText phoneNumber;
@@ -102,7 +101,7 @@ public class GameActivity extends AppCompatActivity implements TimerListener {
         refresh();
     }
 
-    //pour le sms : http://javatechig.com/android/sending-sms-message-in-android
+    //SOURCE pour le sms : http://javatechig.com/android/sending-sms-message-in-android
     private void endGame() {
 
         AlertDialog.Builder adb = new AlertDialog.Builder(this);
@@ -148,7 +147,7 @@ public class GameActivity extends AppCompatActivity implements TimerListener {
 
         Epreuve epreuve = jeu.getEpreuve();
 
-        epreuveView.setText(String.valueOf(jeu.getNbEpreuves()+1));
+        epreuveView.setText(String.valueOf(jeu.getNbEpreuves() + 1));
         pointsView.setText(String.valueOf(jeu.getPoints()));
 
         // Image
@@ -157,7 +156,8 @@ public class GameActivity extends AppCompatActivity implements TimerListener {
                 InputStream ims = getAssets().open(epreuve.getCheminImage());
                 Drawable d = Drawable.createFromStream(ims, null);
                 imageView.setImageDrawable(d);
-            } catch (IOException ignored) {}
+            } catch (IOException ignored) {
+            }
         }
 
         // Question
@@ -176,7 +176,7 @@ public class GameActivity extends AppCompatActivity implements TimerListener {
     public void buzz(View view) {
 
         RadioButton checked = (RadioButton) findViewById(radioGroup.getCheckedRadioButtonId());
-        if(checked==null)return;
+        if (checked == null) return;
         boolean bonneReponse = jeu.buzz(checked.getText().toString());
 
         String message;
@@ -236,8 +236,7 @@ public class GameActivity extends AppCompatActivity implements TimerListener {
             seconds = ((JeuContreMontre) jeu).getGameRemainingTime();
             if (seconds <= 10) gameTimer.setTextColor(Color.RED);
             if (seconds == 0) gameTimer.setTextColor(Color.GRAY);
-        }
-        else
+        } else
             seconds = jeu.getGameTime();
 
         int minutes = seconds / 60;
@@ -250,12 +249,14 @@ public class GameActivity extends AppCompatActivity implements TimerListener {
     public void endOfTimer(TimerEvent event) {
         endGame();
     }
+
     //SOURCE pour chercher les contactes : http://developer.android.com/training/basics/intents/result.html
     public void pickContact(View view) {
         Intent pickContactIntent = new Intent(Intent.ACTION_PICK, Uri.parse("content://contacts"));
         pickContactIntent.setType(ContactsContract.CommonDataKinds.Phone.CONTENT_TYPE); // Show user only contacts w/ phone numbers
         startActivityForResult(pickContactIntent, PICK_CONTACT_REQUEST);
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         // Check which request it is that we're responding to
@@ -283,7 +284,7 @@ public class GameActivity extends AppCompatActivity implements TimerListener {
 
                 // Do something with the phone number...
 
-                Toast.makeText(getApplicationContext(),""+number,Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "" + number, Toast.LENGTH_LONG).show();
                 phoneNumber.setText(number);
             }
         }
