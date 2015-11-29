@@ -178,7 +178,7 @@ public abstract class Jeu {
     }
 
     public void finish() {
-        dao.saveStats(this);
+        saveStats();
     }
 
     public void addListener(GameListener listener) {
