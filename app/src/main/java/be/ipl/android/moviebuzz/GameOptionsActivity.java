@@ -68,9 +68,7 @@ public class GameOptionsActivity extends AppCompatActivity {
                 startActivity(newIntent);
             } else if (BluetoothDevice.ACTION_FOUND.equals(action)) {
                 BluetoothDevice device = (BluetoothDevice) intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-
                 deviceList.add(device);
-
                 toaster("Found device " + device.getName());
             }
         }
