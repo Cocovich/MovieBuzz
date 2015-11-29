@@ -2,19 +2,62 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/player_name"
+        android:id="@+id/labelPlayerName"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:id="@+id/playerName"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="false"
+        android:clickable="true"
+        android:editable="true"
+        android:layout_below="@+id/labelPlayerName" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/phone_number"
+        android:id="@+id/labelPhoneNumber"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/playerName" />
+
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="phone"
         android:ems="10"
-        android:id="@+id/phoneNumberValue"
-        android:layout_alignParentTop="true"
+        android:id="@+id/phoneNumber"
+        android:layout_alignParentTop="false"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:text="@string/phone_number"
         android:editable="true"
         android:clickable="true"
-        android:phoneNumber="true" />
+        android:phoneNumber="true"
+        android:layout_below="@+id/labelPhoneNumber" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/your_message"
+        android:id="@+id/labelMessage"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/phoneNumber" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -22,8 +65,10 @@
         android:inputType="textMultiLine"
         android:ems="10"
         android:id="@+id/smsMessage"
-        android:layout_below="@+id/phoneNumberValue"
+        android:layout_below="@+id/labelMessage"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:text="@string/sms_message" />
+        android:clickable="true"
+        android:editable="true" />
+
 </RelativeLayout>

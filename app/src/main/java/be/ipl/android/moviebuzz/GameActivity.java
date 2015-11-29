@@ -101,19 +101,20 @@ public class GameActivity extends AppCompatActivity implements TimerListener {
         //On instancie notre layout en tant que View
         View dialog = LayoutInflater.from(this).inflate(R.layout.dialog_fin_partie, null);
         //On affecte la vue personnalisé que l'on a crée à notre AlertDialog
+        adb.setTitle("Jeu terminé");
         adb.setView(dialog);
 
-        adb.setTitle("Jeu terminé");
-        final String defaultMessage = String.format("Vous avez gagné %d points.", jeu.getPoints());
-        final EditText phoneNumber = (EditText) dialog.findViewById(R.id.phoneNumberValue);
+        final EditText playerName = (EditText) dialog.findViewById(R.id.playerName);
+        final EditText phoneNumber = (EditText) dialog.findViewById(R.id.phoneNumber);
         final EditText message = (EditText) dialog.findViewById(R.id.smsMessage);
 
         adb.setPositiveButton("Envoyer", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                String defaultMessage = String.format("%s vient de gagner %d points au jeu MovieBuzz.", playerName.getText().toString(), jeu.getPoints());
                 try {
                     SmsManager smsManager = SmsManager.getDefault();
-                    smsManager.sendTextMessage(phoneNumber.getText().toString(), null, defaultMessage+" "+message.getText().toString(), null, null);
+                    smsManager.sendTextMessage(phoneNumber.getText().toString(), null, defaultMessage + " " + message.getText().toString(), null, null);
                     retourMenu();
                 } catch (Exception e) {
                     Toast.makeText(getApplicationContext(), "Il y a eu une erreur lors de l'envoi.", Toast.LENGTH_LONG).show();

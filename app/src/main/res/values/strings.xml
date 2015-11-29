@@ -15,6 +15,11 @@
     <string name="game_points">Points</string>
     <string name="buzz_Bouton_Valider">BUZZ !</string>
 
+    <!-- Game end -->
+    <string name="player_name">Votre nom</string>
+    <string name="phone_number">Numéro de téléphone</string>
+    <string name="your_message">Votre message</string>
+
     <!-- Game options -->
     <string name="game_options_title">Paramètres de la partie</string>
     <string name="options_duration">Durée maximale</string>
@@ -29,6 +34,4 @@
 
     <string name="text_pair">Pair</string>
     <string name="text_list_devices">List of Devices</string>
-    <string name="phone_number">Numéro de téléphone</string>
-    <string name="sms_message">Message</string>
 </resources>
