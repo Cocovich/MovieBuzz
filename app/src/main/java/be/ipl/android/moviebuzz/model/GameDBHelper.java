@@ -73,7 +73,7 @@ public class GameDBHelper extends SQLiteOpenHelper {
         valeurs.put(GameDBEntry.GAMES_COLUMN_NAME_TRUE_ANSWERS_COUNT, jeu.getNbBonnesReponses());
         valeurs.put(GameDBEntry.GAMES_COLUMN_NAME_FALSE_ANSWERS_COUNT, jeu.getNbMauvaisesReponses());
         valeurs.put(GameDBEntry.GAMES_COLUMN_NAME_DATE, "now");
-        db.insert(GameDBEntry.QUESTIONS_TABLE_NAME, null, valeurs);
+        db.insert(GameDBEntry.GAMES_TABLE_NAME, null, valeurs);
     }
 
     private void peuplement(SQLiteDatabase db) {
