@@ -26,4 +26,7 @@
     <string name="title_activity_stats">StatsActivity</string>
     <string name="stats_total_points">Points cumulés</string>
     <string name="buzzer_description">Buzzer</string>
+
+    <string name="text_pair">Pair</string>
+    <string name="text_list_devices">List of Devices</string>
 </resources>
