@@ -13,6 +13,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.telephony.SmsManager;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -42,6 +43,8 @@ public class GameActivity extends AppCompatActivity implements GameListener {
     public static final String PARAM_JEU_EPREUVES = "PARAM_JEU_EPREUVES";
     public static final String PARAM_JEU_POINTS = "PARAM_JEU_POINTS";
     static final int PICK_CONTACT_REQUEST = 1;  // The request code
+
+    private AlertDialog ad;
 
     private Jeu jeu;
 
@@ -99,10 +102,10 @@ public class GameActivity extends AppCompatActivity implements GameListener {
         refresh();
     }
 
-    //SOURCE pour le sms : http://javatechig.com/android/sending-sms-message-in-android
     private void endGame() {
 
         AlertDialog.Builder adb = new AlertDialog.Builder(this);
+        ad = adb.create();
         //On instancie notre layout en tant que View
         View dialog = LayoutInflater.from(this).inflate(R.layout.dialog_fin_partie, null);
         //On affecte la vue personnalisé que l'on a crée à notre AlertDialog
@@ -136,12 +139,26 @@ public class GameActivity extends AppCompatActivity implements GameListener {
             }
         });
 
+        adb.setOnKeyListener(new AlertDialog.OnKeyListener() {
+
+            @Override
+            public boolean onKey(DialogInterface arg0, int keyCode,
+                                 KeyEvent event) {
+                // TODO Auto-generated method stub
+                if (keyCode == KeyEvent.KEYCODE_BACK) {
+                    jeu.close();
+                    finish();
+                    ad.dismiss();
+                }
+                return true;
+            }
+        });
+
         adb.show();
     }
 
     private void retourMenu() {
-        Intent menuIntent = new Intent(this, MainActivity.class);
-        startActivity(menuIntent);
+        finish();
     }
 
     private void refresh() {
@@ -219,6 +236,38 @@ public class GameActivity extends AppCompatActivity implements GameListener {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event)  {
+        if (Integer.parseInt(android.os.Build.VERSION.SDK) > 5
+                && keyCode == KeyEvent.KEYCODE_BACK
+                && event.getRepeatCount() == 0) {
+            onBackPressed();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    public void onBackPressed() {
+        AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+        dialog.setTitle("Confirmer");
+        dialog.setMessage("Êtes-vous sûr de vouloir quitter la partie ?");
+        dialog.setPositiveButton("Oui", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                jeu.close();
+                finish();
+            }
+        });
+
+        dialog.setNegativeButton("Non", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+
+        dialog.show();
     }
 
     @Override

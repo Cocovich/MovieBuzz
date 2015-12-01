@@ -177,6 +177,11 @@ public abstract class Jeu {
         return ! iterator.hasNext();
     }
 
+    public void close() {
+        if (gameTimer != null)
+            gameTimer.cancel();
+    }
+
     public void finish() {
         saveStats();
     }

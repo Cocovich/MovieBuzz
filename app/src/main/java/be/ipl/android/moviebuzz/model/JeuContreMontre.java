@@ -36,6 +36,12 @@ public class JeuContreMontre extends Jeu {
         }.start();
     }
 
+    @Override
+    public void close() {
+        super.close();
+        gameRemainingTimer.cancel();
+    }
+
     public int getGameRemainingTime() {
         return gameMaxDuration - gameTime;
     }
